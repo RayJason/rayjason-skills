@@ -57,7 +57,15 @@ def main() -> None:
         fail("description must state a no-trigger boundary")
     if not any(
         term in lowered
-        for term in ("complex", "long-running", "risky", "复杂", "长期", "高风险")
+        for term in (
+            "complex",
+            "long-running",
+            "risky",
+            "复杂",
+            "长期",
+            "高风险",
+            "工程化",
+        )
     ):
         fail("description must state a positive trigger")
 
