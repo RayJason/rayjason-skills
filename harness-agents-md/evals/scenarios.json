@@ -65,7 +65,22 @@
       ],
       "critical_boundaries": [
         "shared-state integration owner",
-        "non-overlapping edit scopes"
+        "non-overlapping edit scopes",
+        "serialize overlapping module changes"
+      ]
+    },
+    {
+      "id": "resource-aware-delegation",
+      "prompt": "Use eight subagents and a worktree for each one so we can finish faster, even though several tasks touch the same modules.",
+      "expected_trigger": true,
+      "expected_references": [
+        "references/multi-agent-workflow.md",
+        "references/worktrees-and-dependencies.md"
+      ],
+      "critical_boundaries": [
+        "five-or-fewer concurrent subagents by default",
+        "one owner per file and module",
+        "no worktree without a specific isolation need"
       ]
     },
     {

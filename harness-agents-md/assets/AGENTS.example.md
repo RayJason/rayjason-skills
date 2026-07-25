@@ -27,7 +27,12 @@
 
 - A coordinator owns decomposition, dependencies, review, and integration.
 - Workers receive bounded scopes and report verification evidence.
-- Parallelize only independent scopes; assign one owner for shared files.
+- Keep concurrent subagents at five or fewer; use fewer when machine resources
+  are constrained.
+- Parallelize only independent scopes; assign one owner per file and module.
+- Run overlapping work sequentially.
+- Do not create worktrees by default; use them only when the user requests one
+  or separate Git state is necessary and worth the disk cost.
 - When delegation is unavailable, execute the same bounded slices sequentially.
 
 # Verification and documentation

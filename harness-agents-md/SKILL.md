@@ -35,13 +35,13 @@ npx skills add RayJason/rayjason-skills --skill harness-agents-md --global
 
 - **全局 + 项目级**：宿主加载链、指令分层与适配：
   `references/agent-compatibility.md` 和 `references/agents-guidance.md`.
-- **全局规则**：多 Agent 分工与降级：
+- **全局规则**：subAgent 资源限制、文件/module 单一所有者、多 Agent 分工与降级：
   `references/multi-agent-workflow.md`.
 - **项目级规则**：架构边界或跨模块方案：
   `references/architecture-and-scope.md`.
 - **项目级规则**：任务、roadmap、进度和长期文档：
   `references/documentation-lifecycle.md`.
-- **项目级规则**：默认分支、分支提交、worktree 和依赖交接：
+- **项目级规则**：默认分支、分支提交、worktree 使用条件和依赖交接：
   `references/worktrees-and-dependencies.md`.
 - **项目级规则**：运行、发布、部署、迁移或采用证据：
   `references/verification-and-handoffs.md`.
@@ -59,4 +59,5 @@ npx skills add RayJason/rayjason-skills --skill harness-agents-md --global
 已安装 Skills、治理项目级 `AGENTS.md`/宿主适配文件、两者都治理或暂不设置。
 仅在用户明确同意后创建；先确认周期、项目范围、运行位置和权限，并手动测试
 任务提示词。默认建议每周、只审计并报告建议；自动改文件或清理 Skill 需要
-单独授权。Git 项目需要写入时优先使用隔离 worktree。
+单独授权。Git 项目需要写入时优先顺序执行；只有用户要求或隔离确有必要时
+才使用 worktree。

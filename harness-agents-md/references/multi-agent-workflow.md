@@ -3,6 +3,18 @@
 These are roles, not product-specific features. One agent may perform both roles
 sequentially when the host cannot delegate.
 
+## Resource and ownership limits
+
+- Use the fewest agents that materially reduce risk or latency.
+- Keep concurrent subagents at five or fewer by default. Use fewer on machines
+  with limited memory or CPU.
+- Exceed five only when the user explicitly requests it and available resources
+  are verified sufficient.
+- Give each file and module one concurrent owner. Never assign overlapping
+  writes to different workers.
+- If tasks share files, modules, interfaces, schema, lockfiles, or generated
+  outputs, choose one integration owner or run the work sequentially.
+
 ## Coordinator
 
 The coordinator:
@@ -52,6 +64,6 @@ A worker:
 - Commit:
 ```
 
-Parallelize only independent scopes. Assign one integration owner for shared
-interfaces, schema, lockfiles, generated artifacts, and documentation indexes.
-Never accept a worker's statement as evidence without inspecting the result.
+Parallelize only independent scopes. A worktree does not make overlapping edits
+independent and does not replace single ownership. Never accept a worker's
+statement as evidence without inspecting the result.

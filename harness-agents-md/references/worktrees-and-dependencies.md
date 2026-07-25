@@ -1,5 +1,22 @@
 # Worktrees and dependency handoffs
 
+## Worktree decision
+
+Do not create a worktree by default. Extra checkouts consume disk, duplicate
+build artifacts and dependencies, and can increase operational cleanup.
+
+Prefer:
+
+1. one owner per file and module;
+2. parallel work only for non-overlapping scopes; and
+3. sequential execution when scopes overlap.
+
+Use a worktree only when the user requests it or the task genuinely needs
+separate Git state, branch isolation, or a disposable experiment that cannot be
+handled safely in the current checkout. Check available disk and expected build
+cost first. A worktree never authorizes two agents to modify the same file or
+module concurrently.
+
 ## Branch workflow
 
 Resolve the actual default branch and inspect hosting-provider branch
