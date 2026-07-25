@@ -1,69 +1,67 @@
 # RayJason Skills
 
-面向工程化软件交付的开源 Agent Skills 集合。
+**English** | [简体中文](README.zh-CN.md)
+
+An open-source collection of Agent Skills for production-grade software delivery.
 
 ## Skills
 
-| Skill | 展示名 | 用途 | 状态 |
+| Skill | Display name | Purpose | Status |
 | --- | --- | --- | --- |
-| [`harness-agents-md`](harness-agents-md/) | 驾驭AGENTS.md | 分层治理全局与项目级 `AGENTS.md`，让规则可执行、可验证、可维护 | 可用 |
+| [`harness-agents-md`](harness-agents-md/) | Harness AGENTS.md | Govern global and project-level `AGENTS.md` files with executable, verifiable, and maintainable rules | Available |
 
-新增 Skill 时，在表格中增加一行，并在仓库根目录放置同名 Skill 目录。
+When adding a skill, add a row to this table and place a directory with the same
+name at the repository root.
 
-## 驾驭 AGENTS.md
+## Harness AGENTS.md
 
-`harness-agents-md` 面向 Codex、Claude Code、CodeBuddy、WorkBuddy
-及其他 Agent 宿主，工程化维护个人全局与项目代理规则。它覆盖：
+`harness-agents-md` provides an engineering-oriented way to maintain personal,
+global, and project-level agent rules for Codex, Claude Code, CodeBuddy,
+WorkBuddy, and other agent hosts. It covers:
 
-- 宿主能力识别与降级；
-- 全局与项目级规则链盘点、分层建议和作用域纠错；
-- 全局高内聚、低耦合与单文件 350 行默认规则，兼容用户已有约束；
-- 主分支保护、README/CONTRIBUTING 约定与单一职责分支策略；
-- 模块边界与协调者/执行者分工；
-- subAgent 默认不超过 5 个，文件/module 单一所有者，重叠任务顺序执行；
-- 基于证据的验证、发布与上下游交接；
-- 避免形式化文档膨胀的文档生命周期；
-- 既有 tasks/roadmap 发现与可选的项目进度文档管理；
-- 非必要不使用 worktree，并提供带自动安全测试的清理流程。
-- 完成治理后可选的 Schedule 周期审计。
+- host capability detection and graceful degradation;
+- auditing global and project-level rule chains, recommending appropriate
+  layers, and correcting scope;
+- global high-cohesion, low-coupling, and 350-line-per-file defaults while
+  respecting existing user constraints;
+- main branch protection, README/CONTRIBUTING conventions, and
+  single-responsibility branch strategies;
+- module boundaries and coordinator/executor responsibilities;
+- a default maximum of five subagents, single ownership per file/module, and
+  sequential execution for overlapping tasks;
+- evidence-based validation, release, and downstream handoff;
+- documentation lifecycles that avoid unnecessary process bloat;
+- discovery of existing tasks and roadmaps, with optional project progress
+  document management;
+- avoiding worktrees unless necessary, with an automated and safety-tested
+  cleanup workflow;
+- optional scheduled audits after governance is established.
 
 ## Install
 
-使用开源 Agent Skills CLI 为 Codex 全局安装：
+Install globally for Codex with the open-source Agent Skills CLI:
 
 ```bash
-bunx skills add RayJason/rayjason-skills \
-  --skill harness-agents-md \
-  --global \
-  --agent codex \
-  --yes
+npx skills add RayJason/rayjason-skills --skill harness-agents-md --global
 ```
 
-可以用 `npx skills` 替代 `bunx skills`。去掉 `--global` 可安装到当前项目；
-也可以选择其他支持的 Agent：
+- You can use `bunx skills` instead of `npx skills`.
+- Remove `--global` to install into the current project.
+
+Update an installed skill:
 
 ```bash
-bunx skills add RayJason/rayjason-skills \
-  --skill harness-agents-md \
-  --global \
-  --agent claude-code \
-  --yes
+npx skills update harness-agents-md --global --yes
 ```
 
-更新已安装版本：
+WorkBuddy users can import a local skill package from the Skills interface.
 
-```bash
-bunx skills update harness-agents-md --global --yes
-```
-
-WorkBuddy 用户可以从 Skills 界面导入本地 Skill 包。
-
-宿主行为可能变化。依赖自动加载指令前，请查看
-[`agent-compatibility.md`](harness-agents-md/references/agent-compatibility.md)。
+Host behavior may change. Before relying on automatic instruction loading, see
+[`agent-compatibility.md`](harness-agents-md/references/agent-compatibility.md).
 
 ## Develop
 
-通过 SSH 克隆仓库：
+Clone the repository over SSH:
 
 ```bash
 git clone git@github.com:RayJason/rayjason-skills.git
@@ -78,11 +76,14 @@ bash -n harness-agents-md/scripts/*.sh
 harness-agents-md/scripts/test_cleanup_worktree.sh
 ```
 
-契约测试会验证发现元数据、按需 reference 路由和行为场景语料。跨宿主模型评估
-参见 [`evals/README.md`](harness-agents-md/evals/README.md)。
+The contract tests validate discovery metadata, on-demand reference routing, and
+behavioral scenario fixtures. See
+[`evals/README.md`](harness-agents-md/evals/README.md) for cross-host model
+evaluations.
 
-worktree 清理脚本默认只预览。使用 `--apply` 前应检查解析出的仓库、worktree、
-分支和目标引用。
+The worktree cleanup script only previews changes by default. Before using
+`--apply`, inspect the resolved repository, worktree, branch, and target
+reference.
 
 ## License
 
