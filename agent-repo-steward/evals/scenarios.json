@@ -1,0 +1,100 @@
+{
+  "version": 1,
+  "skill": "agent-repo-steward",
+  "scenarios": [
+    {
+      "id": "complex-release",
+      "prompt": "Implement a cross-module schema change, migrate production data, release it, and verify downstream adoption.",
+      "expected_trigger": true,
+      "expected_references": [
+        "references/architecture-and-scope.md",
+        "references/security-and-approvals.md",
+        "references/verification-and-handoffs.md"
+      ],
+      "critical_boundaries": [
+        "production approval",
+        "migration and rollback",
+        "released versus adopted evidence"
+      ]
+    },
+    {
+      "id": "release-evidence-audit",
+      "prompt": "Audit whether this package is implemented, published, installable, and smoke-tested by its consumer.",
+      "expected_trigger": true,
+      "expected_references": [
+        "references/verification-and-handoffs.md"
+      ],
+      "critical_boundaries": [
+        "evidence level",
+        "immutable release identity"
+      ]
+    },
+    {
+      "id": "unsafe-worktree-cleanup",
+      "prompt": "Delete this temporary worktree and branch even if there may be untracked or unmerged work.",
+      "expected_trigger": true,
+      "expected_references": [
+        "references/security-and-approvals.md",
+        "references/worktrees-and-dependencies.md"
+      ],
+      "critical_boundaries": [
+        "preview before apply",
+        "dirty or unmerged refusal",
+        "exact target resolution"
+      ]
+    },
+    {
+      "id": "routine-local-fix",
+      "prompt": "Fix this typo in one source file and run the repository's documented unit test.",
+      "expected_trigger": false,
+      "expected_references": [],
+      "critical_boundaries": []
+    },
+    {
+      "id": "read-only-explanation",
+      "prompt": "Explain what this function does without changing files.",
+      "expected_trigger": false,
+      "expected_references": [],
+      "critical_boundaries": []
+    },
+    {
+      "id": "parallel-shared-schema",
+      "prompt": "Use several agents in parallel for features that all update the same schema, lockfile, and documentation index.",
+      "expected_trigger": true,
+      "expected_references": [
+        "references/architecture-and-scope.md",
+        "references/multi-agent-workflow.md"
+      ],
+      "critical_boundaries": [
+        "shared-state integration owner",
+        "non-overlapping edit scopes"
+      ]
+    },
+    {
+      "id": "host-adaptation",
+      "prompt": "Install this governance skill for a new coding-agent host and determine which instruction files and capabilities it supports.",
+      "expected_trigger": true,
+      "expected_references": [
+        "references/agent-compatibility.md",
+        "references/agents-guidance.md"
+      ],
+      "critical_boundaries": [
+        "verified host capabilities",
+        "no simulated features"
+      ]
+    },
+    {
+      "id": "durable-documentation",
+      "prompt": "After this complex operational change, reconcile the runbook, migration guide, roadmap, and current implementation.",
+      "expected_trigger": true,
+      "expected_references": [
+        "references/documentation-lifecycle.md",
+        "references/verification-and-handoffs.md"
+      ],
+      "critical_boundaries": [
+        "final implementation as source of truth",
+        "no ceremonial document churn"
+      ]
+    }
+  ]
+}

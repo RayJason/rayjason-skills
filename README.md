@@ -44,9 +44,15 @@ before relying on automatic instruction loading.
 
 ```bash
 python3 /path/to/skill-creator/scripts/quick_validate.py agent-repo-steward
+python3 agent-repo-steward/scripts/test_skill_contract.py
 bash -n agent-repo-steward/scripts/*.sh
 agent-repo-steward/scripts/test_cleanup_worktree.sh
 ```
+
+The contract test validates discovery metadata, conditional reference routing,
+and the behavior-scenario corpus. See
+[`evals/README.md`](agent-repo-steward/evals/README.md) for cross-host model
+evaluation.
 
 The cleanup helper is preview-only by default. Review its resolved repository,
 worktree, branch, and target ref before using `--apply`.
