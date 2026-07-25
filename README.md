@@ -18,27 +18,48 @@ It covers:
 
 The skill package is in [`agent-repo-steward`](agent-repo-steward/).
 
-## Clone
-
-Use the SSH remote:
-
-```bash
-git clone git@github.com:RayJason/rayjason-skills.git
-```
-
 ## Install
 
-Copy or symlink the `agent-repo-steward` directory into the skill directory
-supported by your Agent host:
+Install `agent-repo-steward` globally for Codex with the open Agent Skills CLI:
 
-- Codex project: `.agents/skills/agent-repo-steward/`
-- Claude Code project: `.claude/skills/agent-repo-steward/`
-- CodeBuddy project: `.codebuddy/skills/agent-repo-steward/`
-- WorkBuddy: import the local skill package from the Skills interface
+```bash
+bunx skills add RayJason/rayjason-skills \
+  --skill agent-repo-steward \
+  --global \
+  --agent codex \
+  --yes
+```
+
+`npx skills` can be used in place of `bunx skills`. Remove `--global` to
+install into the current project, or select another supported host:
+
+```bash
+bunx skills add RayJason/rayjason-skills \
+  --skill agent-repo-steward \
+  --global \
+  --agent claude-code \
+  --yes
+```
+
+Update an installed copy with:
+
+```bash
+bunx skills update agent-repo-steward --global --yes
+```
+
+WorkBuddy users can import the local skill package from the Skills interface.
 
 Host behavior changes over time. See
 [`agent-compatibility.md`](agent-repo-steward/references/agent-compatibility.md)
 before relying on automatic instruction loading.
+
+## Develop
+
+Clone the source repository over SSH:
+
+```bash
+git clone git@github.com:RayJason/rayjason-skills.git
+```
 
 ## Validate
 
