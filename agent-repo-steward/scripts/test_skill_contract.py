@@ -53,9 +53,12 @@ def main() -> None:
     skill_text = SKILL_FILE.read_text()
     description = load_description(skill_text)
     lowered = description.lower()
-    if "not for" not in lowered:
+    if not any(term in lowered for term in ("not for", "不用于", "不适用于")):
         fail("description must state a no-trigger boundary")
-    if not any(term in lowered for term in ("complex", "long-running", "risky")):
+    if not any(
+        term in lowered
+        for term in ("complex", "long-running", "risky", "复杂", "长期", "高风险")
+    ):
         fail("description must state a positive trigger")
 
     body = skill_text.split("---", 2)[-1]
