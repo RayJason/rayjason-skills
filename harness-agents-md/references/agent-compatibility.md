@@ -6,7 +6,7 @@ delegation, permission models, and automation are host adapters.
 ## Codex
 
 - Repository instructions: `AGENTS.md`, including nested scope where supported.
-- Repository skill package: `.agents/skills/agent-repo-steward/SKILL.md`
+- Repository skill package: `.agents/skills/harness-agents-md/SKILL.md`
   when the current Codex host supports repository-local skills.
 - User installation commonly uses the Codex-configured skills directory; verify
   it in the active host rather than assuming a machine path.
@@ -16,8 +16,8 @@ delegation, permission models, and automation are host adapters.
 ## Claude Code
 
 - Repository instructions: `CLAUDE.md`.
-- Repository skill package: `.claude/skills/agent-repo-steward/SKILL.md`;
-  user package: `~/.claude/skills/agent-repo-steward/SKILL.md`.
+- Repository skill package: `.claude/skills/harness-agents-md/SKILL.md`;
+  user package: `~/.claude/skills/harness-agents-md/SKILL.md`.
 - To share a canonical `AGENTS.md`, use the thin adapter in
   `assets/CLAUDE.example.md`; Claude Code supports `@AGENTS.md` imports.
 - Larger Claude-only rules may use `.claude/rules/`; keep portable policy out of
@@ -28,8 +28,8 @@ delegation, permission models, and automation are host adapters.
 ## Tencent CodeBuddy
 
 - Repository instructions: `CODEBUDDY.md`.
-- Repository skill package: `.codebuddy/skills/agent-repo-steward/SKILL.md`;
-  user package: `~/.codebuddy/skills/agent-repo-steward/SKILL.md`.
+- Repository skill package: `.codebuddy/skills/harness-agents-md/SKILL.md`;
+  user package: `~/.codebuddy/skills/harness-agents-md/SKILL.md`.
 - Current CodeBuddy IDE documentation says a root `AGENTS.md` is loaded when
   `CODEBUDDY.md` is absent. If both are needed, keep `AGENTS.md` canonical and
   use `assets/CODEBUDDY.example.md` as a pointer.

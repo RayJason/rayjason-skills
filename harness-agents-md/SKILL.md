@@ -1,9 +1,9 @@
 ---
-name: agent-repo-steward
+name: harness-agents-md
 description: "工程化创建、审计和优化项目的 AGENTS.md：结合真实仓库明确开发命令、模块边界、协作方式、Git 工作流、验证与交付规范，让规则可执行、可验证、可维护；不用于普通代码修改或只读问答。"
 ---
 
-# Agent Repo Steward
+# Harness AGENTS.md
 
 以工程化方式新建、审计和优化项目的 `AGENTS.md`。它先读取真实项目结构和
 现有规则，再把零散、冲突或无法执行的约定整理成适合 AI Agent 长期协作的
@@ -28,7 +28,7 @@ WorkBuddy 一定支持同样的功能。所有 `references/`、`assets/` 和 `sc
 1. 把本 Skill 安装到当前 Agent 支持的 skills 目录。
 2. 在需要优化的仓库中打开 Agent，并发送：
 
-   > 请使用 agent-repo-steward，读取当前仓库的 AGENTS.md、项目结构和现有
+   > 请使用 harness-agents-md，读取当前仓库的 AGENTS.md、项目结构和现有
    > 开发命令，找出冲突、缺失与不可执行规则；保留有效项目约束，先给出
    > 优化方案，经我确认后更新 AGENTS.md 并验证。
 

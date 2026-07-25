@@ -32,5 +32,5 @@
 
 # Detailed workflow
 
-Read `.agents/skills/agent-repo-steward/SKILL.md` when that path exists, or use
-the installed `agent-repo-steward` skill.
+Read `.agents/skills/harness-agents-md/SKILL.md` when that path exists, or use
+the installed `harness-agents-md` skill.

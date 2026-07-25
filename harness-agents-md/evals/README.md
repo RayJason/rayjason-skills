@@ -1,7 +1,7 @@
 # Behavior evaluations
 
 `scenarios.json` is the host-neutral behavior corpus for
-`agent-repo-steward`. It covers:
+`harness-agents-md`. It covers:
 
 - positive, negative, and ambiguous discovery cases;
 - the references expected after discovery;

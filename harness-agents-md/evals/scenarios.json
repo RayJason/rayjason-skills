@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "skill": "agent-repo-steward",
+  "skill": "harness-agents-md",
   "scenarios": [
     {
       "id": "complex-release",

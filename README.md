@@ -1,61 +1,64 @@
 # RayJason Skills
 
-Open-source Agent Skills for practical software delivery.
+面向工程化软件交付的开源 Agent Skills 集合。
 
-## Agent Repo Steward
+## Skills
 
-`agent-repo-steward` keeps long-running, AI-assisted repositories governable
-across Codex, Claude Code, CodeBuddy, WorkBuddy, and other Agent hosts.
+| Skill | 展示名 | 用途 | 状态 |
+| --- | --- | --- | --- |
+| [`harness-agents-md`](harness-agents-md/) | 驾驭AGENTS.md | 工程化创建、审计和优化项目的 `AGENTS.md`，让规则可执行、可验证、可维护 | 可用 |
 
-It covers:
+新增 Skill 时，在表格中增加一行，并在仓库根目录放置同名 Skill 目录。
 
-- host capability detection and graceful fallback;
-- instruction authority, permission, and prompt-injection boundaries;
-- scoped architecture and coordinator/worker ownership;
-- evidence-based verification and upstream/downstream handoffs;
-- documentation lifecycle without ceremonial file churn;
-- guarded Git worktree cleanup with automated safety tests.
+## Harness AGENTS.md
 
-The skill package is in [`agent-repo-steward`](agent-repo-steward/).
+`harness-agents-md` 面向 Codex、Claude Code、CodeBuddy、WorkBuddy
+及其他 Agent 宿主，工程化维护项目代理规则。它覆盖：
+
+- 宿主能力识别与降级；
+- 指令优先级、权限和提示词注入边界；
+- 模块边界与协调者/执行者分工；
+- 基于证据的验证、发布与上下游交接；
+- 避免形式化文档膨胀的文档生命周期；
+- 带自动安全测试的 Git worktree 清理。
 
 ## Install
 
-Install `agent-repo-steward` globally for Codex with the open Agent Skills CLI:
+使用开源 Agent Skills CLI 为 Codex 全局安装：
 
 ```bash
 bunx skills add RayJason/rayjason-skills \
-  --skill agent-repo-steward \
+  --skill harness-agents-md \
   --global \
   --agent codex \
   --yes
 ```
 
-`npx skills` can be used in place of `bunx skills`. Remove `--global` to
-install into the current project, or select another supported host:
+可以用 `npx skills` 替代 `bunx skills`。去掉 `--global` 可安装到当前项目；
+也可以选择其他支持的 Agent：
 
 ```bash
 bunx skills add RayJason/rayjason-skills \
-  --skill agent-repo-steward \
+  --skill harness-agents-md \
   --global \
   --agent claude-code \
   --yes
 ```
 
-Update an installed copy with:
+更新已安装版本：
 
 ```bash
-bunx skills update agent-repo-steward --global --yes
+bunx skills update harness-agents-md --global --yes
 ```
 
-WorkBuddy users can import the local skill package from the Skills interface.
+WorkBuddy 用户可以从 Skills 界面导入本地 Skill 包。
 
-Host behavior changes over time. See
-[`agent-compatibility.md`](agent-repo-steward/references/agent-compatibility.md)
-before relying on automatic instruction loading.
+宿主行为可能变化。依赖自动加载指令前，请查看
+[`agent-compatibility.md`](harness-agents-md/references/agent-compatibility.md)。
 
 ## Develop
 
-Clone the source repository over SSH:
+通过 SSH 克隆仓库：
 
 ```bash
 git clone git@github.com:RayJason/rayjason-skills.git
@@ -64,19 +67,17 @@ git clone git@github.com:RayJason/rayjason-skills.git
 ## Validate
 
 ```bash
-python3 /path/to/skill-creator/scripts/quick_validate.py agent-repo-steward
-python3 agent-repo-steward/scripts/test_skill_contract.py
-bash -n agent-repo-steward/scripts/*.sh
-agent-repo-steward/scripts/test_cleanup_worktree.sh
+python3 /path/to/skill-creator/scripts/quick_validate.py harness-agents-md
+python3 harness-agents-md/scripts/test_skill_contract.py
+bash -n harness-agents-md/scripts/*.sh
+harness-agents-md/scripts/test_cleanup_worktree.sh
 ```
 
-The contract test validates discovery metadata, conditional reference routing,
-and the behavior-scenario corpus. See
-[`evals/README.md`](agent-repo-steward/evals/README.md) for cross-host model
-evaluation.
+契约测试会验证发现元数据、按需 reference 路由和行为场景语料。跨宿主模型评估
+参见 [`evals/README.md`](harness-agents-md/evals/README.md)。
 
-The cleanup helper is preview-only by default. Review its resolved repository,
-worktree, branch, and target ref before using `--apply`.
+worktree 清理脚本默认只预览。使用 `--apply` 前应检查解析出的仓库、worktree、
+分支和目标引用。
 
 ## License
 
