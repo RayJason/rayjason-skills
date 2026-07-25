@@ -25,6 +25,23 @@ preferences into a shared repository without explicit user intent. Do not paste
 tool inventories, skill summaries, chat history, or other host-injected context
 into `AGENTS.md`.
 
+## Global engineering defaults
+
+When the user chooses global governance, recommend these defaults only when
+equivalent guidance is absent:
+
+- Prefer high cohesion and low coupling: keep modules focused and communicate
+  through stable, explicit interfaces.
+- Keep each code file at or below 350 lines, excluding Markdown and other
+  documentation; split before adding more code when a change would exceed it.
+
+Compare meaning, not only exact wording. If the user already has a similar rule:
+
+- preserve the user's explicit threshold, scope, and terminology;
+- combine compatible guidance into one concise rule instead of duplicating it;
+- do not weaken a stricter rule or replace a conflicting value without asking;
+- keep a more specific project rule as the effective override for that project.
+
 ## One policy, thin adapters
 
 Prefer one repository-owned policy source, commonly `AGENTS.md`, plus the
@@ -65,6 +82,25 @@ Exclude:
 - Treat personal or machine-local instruction files as non-portable.
 - Resolve contradictions using the host's authority order; do not pick the most
   convenient rule.
+
+## Project branch policy
+
+Before writing project Git rules:
+
+1. Detect the repository's actual default branch; do not assume `main` or
+   `master`.
+2. Check branch protection or repository rulesets through the hosting provider
+   when that information is available.
+3. Check `README`, `CONTRIBUTING`, applicable `AGENTS.md`, CI workflows, and
+   release documentation for branch, pull-request, and commit requirements.
+4. Report the evidence and recommendation before adding a rule.
+
+If the default branch is protected or repository guidance requires a branch
+workflow, require every change to use a task-specific branch, keep one cohesive
+purpose per branch, and integrate through the required review flow. Do not
+commit directly to the protected default branch. If neither protection nor
+project guidance requires branches, do not invent the requirement silently;
+follow the user's chosen workflow.
 
 ## Portable example
 

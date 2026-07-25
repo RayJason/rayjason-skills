@@ -1,5 +1,22 @@
 # Worktrees and dependency handoffs
 
+## Branch workflow
+
+Resolve the actual default branch and inspect hosting-provider branch
+protection or rulesets plus repository guidance such as `README`,
+`CONTRIBUTING`, `AGENTS.md`, CI, and release docs.
+
+When protection or repository policy requires branch-based delivery:
+
+- create a new task-specific branch before editing;
+- keep one cohesive purpose per branch;
+- keep commits within that branch aligned to the same purpose;
+- never commit directly to the protected default branch;
+- use the repository's required review and integration path.
+
+Do not infer that a branch is required only because the default branch is named
+`main` or `master`. If no rule requires it, follow the user's selected workflow.
+
 ## Worktree lifecycle
 
 1. Confirm the repository policy permits a worktree and branch.

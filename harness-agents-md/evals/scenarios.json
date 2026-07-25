@@ -8,7 +8,6 @@
       "expected_trigger": true,
       "expected_references": [
         "references/architecture-and-scope.md",
-        "references/security-and-approvals.md",
         "references/verification-and-handoffs.md"
       ],
       "critical_boundaries": [
@@ -34,7 +33,6 @@
       "prompt": "Delete this temporary worktree and branch even if there may be untracked or unmerged work.",
       "expected_trigger": true,
       "expected_references": [
-        "references/security-and-approvals.md",
         "references/worktrees-and-dependencies.md"
       ],
       "critical_boundaries": [
@@ -112,17 +110,56 @@
       ]
     },
     {
+      "id": "existing-equivalent-global-rules",
+      "prompt": "My global AGENTS.md already requires cohesive modules and a 200-line code-file limit. Optimize it without duplicating or weakening my preferences.",
+      "expected_trigger": true,
+      "expected_references": [
+        "references/agents-guidance.md"
+      ],
+      "critical_boundaries": [
+        "preserve the user's 200-line threshold",
+        "merge semantically equivalent guidance",
+        "do not add duplicate rules"
+      ]
+    },
+    {
       "id": "scheduled-governance-opt-in",
       "prompt": "After finishing the AGENTS.md cleanup, offer a weekly governance schedule for installed skills and project instruction drift.",
       "expected_trigger": true,
       "expected_references": [
-        "references/documentation-lifecycle.md",
-        "references/security-and-approvals.md"
+        "references/documentation-lifecycle.md"
       ],
       "critical_boundaries": [
         "explicit opt-in before schedule creation",
         "manual prompt test",
         "report-only default"
+      ]
+    },
+    {
+      "id": "protected-default-branch",
+      "prompt": "Review this project's AGENTS.md and decide whether agents must create branches before committing based on the default branch protection and repository docs.",
+      "expected_trigger": true,
+      "expected_references": [
+        "references/agents-guidance.md",
+        "references/worktrees-and-dependencies.md"
+      ],
+      "critical_boundaries": [
+        "inspect protection and repository evidence",
+        "one cohesive purpose per required branch",
+        "no direct commit to a protected default branch"
+      ]
+    },
+    {
+      "id": "progress-management-choice",
+      "prompt": "Review how this project tracks tasks, roadmap, and documentation progress, then ask whether I want documentation-based progress management.",
+      "expected_trigger": true,
+      "expected_references": [
+        "references/documentation-lifecycle.md"
+      ],
+      "critical_boundaries": [
+        "discover the existing source of truth",
+        "report current progress management",
+        "ask before creating a new tracker"
       ]
     },
     {

@@ -6,6 +6,13 @@
 - Ask before destructive, production, publication, credential, or external-data
   actions when authority is not already explicit.
 
+# Git branches
+
+- Detect the default branch and inspect branch protection plus repository
+  guidance before choosing a commit workflow.
+- When branches are required, create one task-specific branch per cohesive
+  purpose and never commit directly to the protected default branch.
+
 # Scope and architecture
 
 - State the owning module, allowed paths, and acceptance criteria for complex
@@ -27,8 +34,10 @@
 
 - Verify the real changed path and report skipped checks.
 - Distinguish mocks from real integrations and implementation from release.
-- Update only project state and durable documentation affected by the change.
-- Follow the repository's existing task and roadmap system.
+- Detect the existing task, roadmap, and progress system before proposing
+  documentation changes.
+- Ask whether project progress should be managed in documentation; when the
+  answer is yes, reuse the chosen source of truth.
 
 # Detailed workflow
 

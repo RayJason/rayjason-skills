@@ -5,7 +5,17 @@ changed. Avoid documentation churn for trivial implementation details.
 
 ## Active task state
 
-Use the repository's existing tracker. Keep:
+First inspect the repository and connected project tools for existing progress
+management, including task files, roadmap documents, documentation indexes,
+issues, milestones, and project boards. Report what exists, what is current,
+and what overlaps.
+
+Then ask whether the user wants project progress managed through documentation.
+If yes, reuse the existing source of truth. If none exists, offer a minimal
+choice of location and fields; do not create `tasks.md`, a roadmap, or another
+tracker until the user chooses one.
+
+In the selected tracker, keep:
 
 - work in progress and near-term planned work;
 - active blockers and owners;
@@ -14,7 +24,7 @@ Use the repository's existing tracker. Keep:
 
 Move completed or stale items to an archive, issue tracker, release note, or
 history section when they remain useful. Do not silently erase audit-relevant
-decisions. Do not invent `tasks.md` when the repository uses another system.
+decisions.
 
 ## Roadmap and milestones
 

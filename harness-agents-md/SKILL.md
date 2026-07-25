@@ -26,26 +26,24 @@ npx skills add RayJason/rayjason-skills --skill harness-agents-md --global
 ## 工作流
 
 1. 识别宿主能力、全局指令入口、项目根目录、嵌套规则、权限和作用域；自行判断各层文件是否存在，不要求用户说明。
-2. 分别读取全局层与从项目根到当前目录的规则链；确认实际加载顺序。
-3. 先报告两层现状、冲突、重复、缺失和错放规则，再分别给出建议。
-4. 让用户选择只改全局、只改项目、两者都改或暂不修改。
-5. 经授权后更新并验证；保留无关用户改动，区分实现、提交与发布。
+2. 分别读取全局层与从项目根到当前目录的规则链；项目级还要检查默认分支保护、README/CONTRIBUTING 约定和既有 tasks/roadmap/进度文档。
+3. 先报告两层现状、冲突、重复、缺失和错放规则，再分别给出建议；相似规则以用户已有约束为准，兼容时合并去重。
+4. 让用户选择只改全局、只改项目、两者都改或暂不修改，并询问是否由文档持续管理项目进度。
+5. 经授权后更新并验证；需要分支工作流时，每个分支只处理一件事，不直接提交到受保护的默认分支。
 
 ## 按需加载
 
-- 安装或适配宿主：
+- **全局 + 项目级**：宿主加载链、指令分层与适配：
   `references/agent-compatibility.md` 和 `references/agents-guidance.md`.
-- 指令优先级、审批、敏感数据或风险副作用：
-  `references/security-and-approvals.md`.
-- 架构边界或跨模块方案：
-  `references/architecture-and-scope.md`.
-- 多 Agent 分工：
+- **全局规则**：多 Agent 分工与降级：
   `references/multi-agent-workflow.md`.
-- 任务状态、路线图或长期文档：
+- **项目级规则**：架构边界或跨模块方案：
+  `references/architecture-and-scope.md`.
+- **项目级规则**：任务、roadmap、进度和长期文档：
   `references/documentation-lifecycle.md`.
-- worktree 或依赖交接：
+- **项目级规则**：默认分支、分支提交、worktree 和依赖交接：
   `references/worktrees-and-dependencies.md`.
-- 运行、发布、部署、迁移或采用证据：
+- **项目级规则**：运行、发布、部署、迁移或采用证据：
   `references/verification-and-handoffs.md`.
 
 只加载本次需要的资料。缺少多 Agent、worktree 或自动化能力时顺序执行，
