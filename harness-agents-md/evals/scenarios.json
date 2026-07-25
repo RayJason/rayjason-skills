@@ -84,6 +84,48 @@
       ]
     },
     {
+      "id": "layered-instruction-audit",
+      "prompt": "Audit my personal agent defaults and this repository's AGENTS.md, explain what is currently loaded, and recommend what belongs at each level before changing anything.",
+      "expected_trigger": true,
+      "expected_references": [
+        "references/agent-compatibility.md",
+        "references/agents-guidance.md"
+      ],
+      "critical_boundaries": [
+        "global versus project scope",
+        "current-state report before edits",
+        "user selects the change scope"
+      ]
+    },
+    {
+      "id": "missing-project-instructions",
+      "prompt": "Use harness-agents-md to review the instruction setup for this repository.",
+      "expected_trigger": true,
+      "expected_references": [
+        "references/agent-compatibility.md",
+        "references/agents-guidance.md"
+      ],
+      "critical_boundaries": [
+        "discover instruction files without asking the user",
+        "report a missing scope explicitly",
+        "recommend creation only when useful"
+      ]
+    },
+    {
+      "id": "scheduled-governance-opt-in",
+      "prompt": "After finishing the AGENTS.md cleanup, offer a weekly governance schedule for installed skills and project instruction drift.",
+      "expected_trigger": true,
+      "expected_references": [
+        "references/documentation-lifecycle.md",
+        "references/security-and-approvals.md"
+      ],
+      "critical_boundaries": [
+        "explicit opt-in before schedule creation",
+        "manual prompt test",
+        "report-only default"
+      ]
+    },
+    {
       "id": "durable-documentation",
       "prompt": "After this complex operational change, reconcile the runbook, migration guide, roadmap, and current implementation.",
       "expected_trigger": true,

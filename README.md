@@ -6,21 +6,23 @@
 
 | Skill | 展示名 | 用途 | 状态 |
 | --- | --- | --- | --- |
-| [`harness-agents-md`](harness-agents-md/) | 驾驭AGENTS.md | 工程化创建、审计和优化项目的 `AGENTS.md`，让规则可执行、可验证、可维护 | 可用 |
+| [`harness-agents-md`](harness-agents-md/) | 驾驭AGENTS.md | 分层治理全局与项目级 `AGENTS.md`，让规则可执行、可验证、可维护 | 可用 |
 
 新增 Skill 时，在表格中增加一行，并在仓库根目录放置同名 Skill 目录。
 
-## Harness AGENTS.md
+## 驾驭 AGENTS.md
 
 `harness-agents-md` 面向 Codex、Claude Code、CodeBuddy、WorkBuddy
-及其他 Agent 宿主，工程化维护项目代理规则。它覆盖：
+及其他 Agent 宿主，工程化维护个人全局与项目代理规则。它覆盖：
 
 - 宿主能力识别与降级；
+- 全局与项目级规则链盘点、分层建议和作用域纠错；
 - 指令优先级、权限和提示词注入边界；
 - 模块边界与协调者/执行者分工；
 - 基于证据的验证、发布与上下游交接；
 - 避免形式化文档膨胀的文档生命周期；
 - 带自动安全测试的 Git worktree 清理。
+- 完成治理后可选的 Schedule 周期审计。
 
 ## Install
 

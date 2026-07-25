@@ -5,7 +5,15 @@ delegation, permission models, and automation are host adapters.
 
 ## Codex
 
-- Repository instructions: `AGENTS.md`, including nested scope where supported.
+- Global instructions: in the Codex home directory, read the first non-empty
+  `AGENTS.override.md` or `AGENTS.md`.
+- Project instructions: from the project root to the current directory, read at
+  most one applicable instruction file per directory. More specific files
+  appear later and take precedence.
+- Codex normally builds this instruction chain once per run. After changing an
+  instruction file, verify the loaded sources in a new session.
+- Report both the global source and complete project chain before proposing
+  edits. Keep personal defaults global and repository facts in the project.
 - Repository skill package: `.agents/skills/harness-agents-md/SKILL.md`
   when the current Codex host supports repository-local skills.
 - User installation commonly uses the Codex-configured skills directory; verify
@@ -60,8 +68,12 @@ Host behavior changes. Verify adapter claims against current official
 documentation before installing globally or relying on automatic instruction
 loading.
 
-Official references checked on 2026-07-25:
+Official references checked on 2026-07-26:
 
+- Codex AGENTS.md:
+  <https://developers.openai.com/codex/guides/agents-md>
+- Codex scheduled tasks:
+  <https://developers.openai.com/codex/app/automations>
 - Claude Code memory: <https://code.claude.com/docs/en/memory>
 - Claude Code skills: <https://code.claude.com/docs/en/skills>
 - CodeBuddy rules: <https://www.workbuddy.cn/docs/ide/User-guide/Rules>
