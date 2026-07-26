@@ -1,6 +1,6 @@
 ---
 name: harness-agents-md
-description: "工程化创建、审计和优化全局与项目级 AGENTS.md，覆盖作用域、协作、Git、验证与交付；不用于普通代码修改或只读问答。"
+description: "创建、审计和优化全局与项目级工程化的 AGENTS.md，覆盖作用域、协作、Git、验证与交付。"
 ---
 
 # 驾驭 AGENTS.md
