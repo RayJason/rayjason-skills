@@ -33,6 +33,10 @@ verified-complete claim. Explain the impact and the next safe action.
 Do not substitute a filename, mock, stale document, or implementation diff for
 runtime or delivery evidence.
 
+For delegated verification and release gates, apply `MA-VERIFY` and
+`MA-RELEASE` from `multi-agent-workflow.md`. Static checks may support the
+evidence chain but are not tests.
+
 ## Upstream and downstream handoff
 
 Separate these states:
@@ -45,6 +49,9 @@ Separate these states:
 
 Report the highest state actually evidenced. Include immutable version or commit
 identity, compatibility impact, migration, consumer validation, and rollback.
+
+For package publication, record the frozen candidate identity and verify the
+consumer path outside the source workspace.
 
 ## Final report
 

@@ -25,15 +25,19 @@
 
 # Agent workflow
 
-- A coordinator owns decomposition, dependencies, review, and integration.
-- Workers receive bounded scopes and report verification evidence.
-- Keep concurrent subagents at five or fewer; use fewer when machine resources
-  are constrained.
-- Parallelize only independent scopes; assign one owner per file and module.
-- Run overlapping work sequentially.
-- Do not create worktrees by default; use them only when the user requests one
-  or separate Git state is necessary and worth the disk cost.
-- When delegation is unavailable, execute the same bounded slices sequentially.
+- Use subagents only for independent workstreams; the coordinator owns
+  decomposition, dependencies, integration, review, and the final evidence.
+- Choose roles and agent count from those workstreams. Keep concurrent
+  subagents at five or fewer and lower the count when resources are constrained.
+- Assign one owner per file and module, serialize overlaps, and give each worker
+  a bounded scope with only the smallest targeted check needed for its change.
+- After module integration, run one focused validation and consolidated review;
+  stop after three review-to-fix rounds and report unresolved decisions.
+- Treat format, lint, and typecheck as static checks, not tests. Reserve the full
+  test/build/release matrix for immediately before an actual release.
+- Use worktrees only when separate Git state is necessary, not to make
+  overlapping ownership appear independent. Without delegation, run the same
+  bounded slices sequentially.
 
 # Verification and documentation
 

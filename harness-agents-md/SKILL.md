@@ -35,7 +35,8 @@ npx skills add RayJason/rayjason-skills --skill harness-agents-md --global
 
 - **全局 + 项目级**：宿主加载链、指令分层与适配：
   `references/agent-compatibility.md` 和 `references/agents-guidance.md`.
-- **全局规则**：subAgent 资源限制、文件/module 单一所有者、多 Agent 分工与降级：
+- **多 Agent 编排**：是否并行、workstream/owner 拆分、主/子 Agent
+  职责、测试归属、集成/review 上限、发布冻结与停止条件：
   `references/multi-agent-workflow.md`.
 - **项目级规则**：架构边界或跨模块方案：
   `references/architecture-and-scope.md`.

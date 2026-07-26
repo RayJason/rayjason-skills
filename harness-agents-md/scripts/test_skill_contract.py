@@ -8,7 +8,24 @@ from pathlib import Path
 SKILL_ROOT = Path(__file__).resolve().parent.parent
 SKILL_FILE = SKILL_ROOT / "SKILL.md"
 SCENARIOS_FILE = SKILL_ROOT / "evals" / "scenarios.json"
+WORKFLOW_FILE = SKILL_ROOT / "references" / "multi-agent-workflow.md"
 REFERENCE_PATTERN = re.compile(r"references/[a-z0-9-]+\.md")
+POLICY_SECTION_PATTERN = re.compile(
+    r"^### (MA-[A-Z]+)\b[^\n]*\n(?P<body>.*?)(?=^### |^## |\Z)",
+    re.MULTILINE | re.DOTALL,
+)
+REQUIRED_MULTI_AGENT_POLICIES = {
+    "MA-DELEGATE",
+    "MA-OWNER",
+    "MA-VERIFY",
+    "MA-REVIEW",
+    "MA-RELEASE",
+}
+REQUIRED_POLICY_FIELDS = (
+    "**Trigger:**",
+    "**Control:**",
+    "**Stop or override:**",
+)
 
 
 def fail(message: str) -> None:
@@ -22,7 +39,7 @@ def load_description(text: str) -> str:
     return match.group(1)
 
 
-def validate_scenarios(skill_text: str) -> None:
+def validate_scenarios(skill_text: str) -> list[dict]:
     payload = json.loads(SCENARIOS_FILE.read_text())
     scenarios = payload.get("scenarios", [])
     if len(scenarios) < 6:
@@ -40,13 +57,70 @@ def validate_scenarios(skill_text: str) -> None:
         for field in ("prompt", "expected_references", "critical_boundaries"):
             if field not in scenario:
                 fail(f"{scenario['id']} is missing {field}")
+        policies = scenario.get("expected_policies", [])
+        if not isinstance(policies, list):
+            fail(f"{scenario['id']} expected_policies must be a list")
+        if len(policies) != len(set(policies)):
+            fail(f"{scenario['id']} has duplicate expected_policies")
         if not scenario["expected_trigger"] and scenario["expected_references"]:
             fail(f"{scenario['id']} loads references without triggering")
+        if policies and "references/multi-agent-workflow.md" not in scenario[
+            "expected_references"
+        ]:
+            fail(f"{scenario['id']} expects policies without workflow reference")
         for relative_path in scenario["expected_references"]:
             if not (SKILL_ROOT / relative_path).is_file():
                 fail(f"{scenario['id']} references missing file {relative_path}")
             if relative_path not in skill_text:
                 fail(f"SKILL.md does not route to {relative_path}")
+
+    return scenarios
+
+
+def validate_multi_agent_contract(scenarios: list[dict]) -> None:
+    sections = list(POLICY_SECTION_PATTERN.finditer(WORKFLOW_FILE.read_text()))
+    policy_ids = [section.group(1) for section in sections]
+    if len(policy_ids) != len(set(policy_ids)):
+        fail("multi-agent workflow has duplicate policy ids")
+
+    defined = set(policy_ids)
+    if defined != REQUIRED_MULTI_AGENT_POLICIES:
+        fail(
+            "multi-agent workflow policy ids differ "
+            f"(defined={sorted(defined)}, required="
+            f"{sorted(REQUIRED_MULTI_AGENT_POLICIES)})"
+        )
+
+    for section in sections:
+        missing_fields = [
+            field
+            for field in REQUIRED_POLICY_FIELDS
+            if not re.search(
+                rf"^- {re.escape(field)}[ \t]+\S",
+                section.group("body"),
+                re.MULTILINE,
+            )
+        ]
+        if missing_fields:
+            fail(f"{section.group(1)} has empty or missing fields {missing_fields}")
+
+    observed_policies = {
+        policy
+        for scenario in scenarios
+        for policy in scenario.get("expected_policies", [])
+    }
+    unknown_policies = observed_policies - REQUIRED_MULTI_AGENT_POLICIES
+    if unknown_policies:
+        fail(
+            "multi-agent scenarios use unknown policies "
+            f"{sorted(unknown_policies)}"
+        )
+    missing_coverage = REQUIRED_MULTI_AGENT_POLICIES - observed_policies
+    if missing_coverage:
+        fail(
+            "multi-agent scenarios are missing policy coverage "
+            f"{sorted(missing_coverage)}"
+        )
 
 
 def main() -> None:
@@ -86,7 +160,8 @@ def main() -> None:
             f"(mentioned={sorted(mentioned)}, available={sorted(available)})"
         )
 
-    validate_scenarios(skill_text)
+    scenarios = validate_scenarios(skill_text)
+    validate_multi_agent_contract(scenarios)
     print("skill contract tests passed")
 
 

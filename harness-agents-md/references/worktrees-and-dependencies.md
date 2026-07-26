@@ -17,6 +17,9 @@ handled safely in the current checkout. Check available disk and expected build
 cost first. A worktree never authorizes two agents to modify the same file or
 module concurrently.
 
+Apply `MA-OWNER` from `multi-agent-workflow.md` before parallel worktree
+dispatch.
+
 ## Branch workflow
 
 Resolve the actual default branch and inspect hosting-provider branch

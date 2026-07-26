@@ -23,7 +23,9 @@ The check validates the public package contract:
 - discovery metadata has positive and negative boundaries;
 - the entrypoint stays lean and uses conditional reference routing;
 - every routed reference exists;
-- the scenario corpus covers both trigger and no-trigger behavior.
+- the scenario corpus covers both trigger and no-trigger behavior;
+- the five stable multi-agent policy IDs each define a trigger, control action,
+  and stop/override condition and are covered by evaluation scenarios.
 
 It does not claim that a model followed the skill.
 

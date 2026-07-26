@@ -63,6 +63,9 @@
         "references/architecture-and-scope.md",
         "references/multi-agent-workflow.md"
       ],
+      "expected_policies": [
+        "MA-OWNER"
+      ],
       "critical_boundaries": [
         "shared-state integration owner",
         "non-overlapping edit scopes",
@@ -77,10 +80,57 @@
         "references/multi-agent-workflow.md",
         "references/worktrees-and-dependencies.md"
       ],
+      "expected_policies": [
+        "MA-DELEGATE",
+        "MA-OWNER"
+      ],
       "critical_boundaries": [
         "five-or-fewer concurrent subagents by default",
         "one owner per file and module",
         "no worktree without a specific isolation need"
+      ]
+    },
+    {
+      "id": "bounded-module-orchestration",
+      "prompt": "Plan several independent implementation workstreams. Define file ownership, worker checks, integrated module review, and when the complete release gate should run.",
+      "expected_trigger": true,
+      "expected_references": [
+        "references/multi-agent-workflow.md",
+        "references/verification-and-handoffs.md"
+      ],
+      "expected_policies": [
+        "MA-DELEGATE",
+        "MA-OWNER",
+        "MA-VERIFY",
+        "MA-REVIEW"
+      ],
+      "critical_boundaries": [
+        "workstream-driven agent count",
+        "one concurrent owner per file and module",
+        "workers do not run full repository gates",
+        "coordinator owns focused module validation",
+        "at most three review-to-fix rounds",
+        "static checks are not tests",
+        "minimal red-to-green worker test exception",
+        "full release matrix only immediately before release"
+      ]
+    },
+    {
+      "id": "frozen-release-artifact",
+      "prompt": "Coordinate a package release through CI, historical upgrade verification, publication, and a clean public consumer smoke test.",
+      "expected_trigger": true,
+      "expected_references": [
+        "references/multi-agent-workflow.md",
+        "references/verification-and-handoffs.md"
+      ],
+      "expected_policies": [
+        "MA-RELEASE"
+      ],
+      "critical_boundaries": [
+        "frozen candidate SHA and managed-file layout",
+        "one exact artifact across release stages",
+        "non-workspace consumer smoke",
+        "declared version, resolved version, integrity, and commit SHA"
       ]
     },
     {
