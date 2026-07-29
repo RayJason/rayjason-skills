@@ -1,112 +1,59 @@
 # Agent-instruction guidance
 
-## Two governance levels
+## Primary-source fidelity
 
-Audit both levels before proposing changes:
+Discover and read the active global instruction source before drafting. When it
+exists, it is the primary source of truth for the user's defaults and for the
+language, tone, terminology, and level of detail used in proposed instructions.
 
-- Global or user guidance holds personal defaults shared across repositories:
-  communication style, general Git preferences, approval boundaries, recurring
-  workflow expectations, and pointers to reusable skills.
-- Project guidance holds repository facts: build and test commands,
-  architecture, module ownership, generated files, documentation routes, local
-  size limits, release gates, and team conventions.
+Do not translate an English global file into Chinese, or any other language,
+unless the user asks. Preserve explicit thresholds and workflow choices. Do not
+replace them with values from this skill, its references, or its examples.
 
-Report the current state before editing. For each loaded source, show its scope,
-path, precedence, notable rules, conflicts, and recommendation. Then ask whether
-to change the global level, project level, both, or neither.
+Every proposed addition needs one of these sources:
 
-Discover instruction files through safe host-aware checks. Do not ask the user
-whether an `AGENTS.md` exists when the filesystem and host rules can answer it.
-If a level has no instruction file, report it as missing and recommend whether
-creating one would add durable value.
+- an explicit requirement in the user's request;
+- a rule already present in the discovered global instructions; or
+- a verified repository fact necessary for the requested project scope.
 
-Do not move repository-specific commands into global guidance or personal
-preferences into a shared repository without explicit user intent. Do not paste
-tool inventories, skill summaries, chat history, or other host-injected context
-into `AGENTS.md`.
-
-## Global engineering defaults
-
-When the user chooses global governance, recommend these defaults only when
-equivalent guidance is absent:
-
-- Prefer high cohesion and low coupling: keep modules focused and communicate
-  through stable, explicit interfaces.
-- Keep each code file at or below 350 lines, excluding Markdown and other
-  documentation; split before adding more code when a change would exceed it.
-
-Compare meaning, not only exact wording. If the user already has a similar rule:
-
-- preserve the user's explicit threshold, scope, and terminology;
-- combine compatible guidance into one concise rule instead of duplicating it;
-- do not weaken a stricter rule or replace a conflicting value without asking;
-- keep a more specific project rule as the effective override for that project.
-
-## One policy, thin adapters
-
-Prefer one repository-owned policy source, commonly `AGENTS.md`, plus the
-smallest host adapter needed to load it. Do not maintain full copies of the same
-rules in `AGENTS.md`, `CLAUDE.md`, and `CODEBUDDY.md`; they will drift.
-
-Before relying on an adapter, verify the current host loaded it. Host behavior
-changes over time.
-
-## Good durable instructions
-
-Include facts an agent cannot safely infer:
-
-- supported build, test, and formatting commands;
-- repository boundaries and source-of-truth locations;
-- package-manager and commit expectations;
-- generated or managed files that must not be edited directly;
-- permission and release gates;
-- routing links to module-specific architecture or operations documents;
-- repeated project-specific mistakes to avoid.
-
-Exclude:
-
-- temporary task status;
-- secrets or private credentials;
-- long tutorials and historical narratives;
-- generic engineering advice the agent already knows;
-- commands that trigger destructive or external actions without confirmation.
+If none applies, omit the rule. Generic model advice and bundled examples are
+not evidence. Prefer a short file over a comprehensive-looking policy.
 
 ## Scope and precedence
 
-- Inspect the host's global instruction entrypoint and the complete applicable
-  project chain before judging either file in isolation.
-- Put repository-wide rules at the root.
-- Put module-specific rules near the module only when the host supports nested
-  instruction discovery; otherwise link them from the root policy.
-- State which file is canonical when multiple host files exist.
-- Treat personal or machine-local instruction files as non-portable.
-- Resolve contradictions using the host's authority order; do not pick the most
-  convenient rule.
+- Global guidance holds personal defaults shared across repositories.
+- Project guidance holds repository facts and intentional project-specific
+  overrides.
+- More specific project instructions may override inherited defaults according
+  to the host's precedence rules.
 
-## Project branch policy
+Read the complete applicable chain before judging a target in isolation. Honor
+the target the user named. A project-only request may use global instructions
+as a read-only baseline; it does not authorize changing the global file or
+duplicating inherited global rules into the project file.
 
-Before writing project Git rules:
+Report missing or inaccessible sources instead of silently substituting a
+template. Ask about scope only when the request is genuinely ambiguous and the
+answer would materially change the edit.
 
-1. Detect the repository's actual default branch; do not assume `main` or
-   `master`.
-2. Check branch protection or repository rulesets through the hosting provider
-   when that information is available.
-3. Check `README`, `CONTRIBUTING`, applicable `AGENTS.md`, CI workflows, and
-   release documentation for branch, pull-request, and commit requirements.
-4. Report the evidence and recommendation before adding a rule.
+## Minimal edits
 
-If the default branch is protected or repository guidance requires a branch
-workflow, require every change to use a task-specific branch, keep one cohesive
-purpose per branch, and integrate through the required review flow. Do not
-commit directly to the protected default branch. If neither protection nor
-project guidance requires branches, do not invent the requirement silently;
-follow the user's chosen workflow.
+- Preserve compatible existing wording instead of rewriting for style alone.
+- Merge semantic duplicates without weakening stricter thresholds.
+- Add repository commands, boundaries, generated-file rules, or release gates
+  only when they are verified and relevant to the requested change.
+- Exclude temporary task state, secrets, host-injected tool inventories, chat
+  history, tutorials, and generic engineering advice.
+- Do not introduce branches, worktrees, subagents, schedules, trackers, or
+  documentation processes merely because a reference discusses them.
+- If the current instructions already satisfy the request, recommend no change.
 
-## Portable example
+## Thin adapters and examples
 
-For project guidance, start from `assets/AGENTS.example.md`. For Claude Code, use
-`assets/CLAUDE.example.md` as an import adapter. For CodeBuddy, use
-`assets/CODEBUDDY.example.md` only when a host-specific file is needed.
+Prefer one canonical policy source plus the smallest host adapter required to
+load it. Verify the host actually loads the adapter before relying on it.
 
-After setup, ask the active agent to list the project instructions it loaded and
-compare the response with the intended policy.
+`assets/AGENTS.example.md` is structure-only and may be used only when the
+requested target does not exist. Copy neither its placeholders nor unrelated
+reference rules into the result. Match the discovered global language and keep
+only sections supported by the user's request or verified repository facts.

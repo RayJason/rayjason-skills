@@ -8,34 +8,27 @@ An open-source collection of Agent Skills for production-grade software delivery
 
 | Skill | Display name | Purpose | Status |
 | --- | --- | --- | --- |
-| [`harness-agents-md`](harness-agents-md/) | Harness AGENTS.md | Govern global and project-level `AGENTS.md` files with executable, verifiable, and maintainable rules | Available |
+| [`harness-agents-md`](harness-agents-md/) | Harness AGENTS.md | Faithfully create, review, reorganize, or optimize global and project agent instructions | Available |
 
 When adding a skill, add a row to this table and place a directory with the same
 name at the repository root.
 
 ## Harness AGENTS.md
 
-`harness-agents-md` provides an engineering-oriented way to maintain personal,
-global, and project-level agent rules for Codex, Claude Code, CodeBuddy,
-WorkBuddy, and other agent hosts. It covers:
+`harness-agents-md` maintains personal, global, and project agent instructions
+for Codex, Claude Code, CodeBuddy, WorkBuddy, and other agent hosts. It:
 
-- host capability detection and graceful degradation;
-- auditing global and project-level rule chains, recommending appropriate
-  layers, and correcting scope;
-- global high-cohesion, low-coupling, and 350-line-per-file defaults while
-  respecting existing user constraints;
-- main branch protection, README/CONTRIBUTING conventions, and
-  single-responsibility branch strategies;
-- module boundaries and coordinator/executor responsibilities;
-- a default maximum of five subagents, single ownership per file/module, and
-  sequential execution for overlapping tasks;
-- evidence-based validation, release, and downstream handoff;
-- documentation lifecycles that avoid unnecessary process bloat;
-- discovery of existing tasks and roadmaps, with optional project progress
-  document management;
-- avoiding worktrees unless necessary, with an automated and safety-tested
-  cleanup workflow;
-- optional scheduled audits after governance is established.
+- activates only for an explicit request to create, review, reorganize, or
+  optimize `AGENTS.md` or agent instructions;
+- discovers the active machine's global instructions and uses them as the
+  primary drafting baseline;
+- preserves the source language, terminology, thresholds, and user choices;
+- adds only rules traceable to the request, existing global instructions, or
+  verified repository facts; and
+- prefers a concise delta over generic policy generation.
+
+Ordinary Git, rebase, merge, release, implementation, and coding requests do
+not trigger this skill.
 
 ## Install
 
@@ -76,8 +69,9 @@ bash -n harness-agents-md/scripts/*.sh
 harness-agents-md/scripts/test_cleanup_worktree.sh
 ```
 
-The contract tests validate discovery metadata, on-demand reference routing, and
-behavioral scenario fixtures. See
+The contract tests validate narrow discovery metadata, global-instruction
+fidelity, on-demand reference routing, and trigger/no-trigger scenario fixtures.
+See
 [`evals/README.md`](harness-agents-md/evals/README.md) for cross-host model
 evaluations.
 

@@ -5,15 +5,22 @@ delegation, permission models, and automation are host adapters.
 
 ## Codex
 
-- Global instructions: in the Codex home directory, read the first non-empty
-  `AGENTS.override.md` or `AGENTS.md`.
+- Resolve the active Codex home from host configuration or environment instead
+  of assuming a path from another machine. In that directory, inspect
+  `AGENTS.override.md` and `AGENTS.md`; the first non-empty file in that order
+  is the active global source.
+- Read that file before drafting. Treat it as the primary source of truth for
+  user defaults and output language. If the home or file is inaccessible,
+  report that limitation instead of substituting the installed skill, an
+  example, or remembered content.
 - Project instructions: from the project root to the current directory, read at
   most one applicable instruction file per directory. More specific files
   appear later and take precedence.
 - Codex normally builds this instruction chain once per run. After changing an
   instruction file, verify the loaded sources in a new session.
-- Report both the global source and complete project chain before proposing
-  edits. Keep personal defaults global and repository facts in the project.
+- Report the resolved global source and applicable project chain before
+  proposing edits. Keep personal defaults global and repository facts in the
+  project.
 - Repository skill package: `.agents/skills/harness-agents-md/SKILL.md`
   when the current Codex host supports repository-local skills.
 - User installation commonly uses the Codex-configured skills directory; verify

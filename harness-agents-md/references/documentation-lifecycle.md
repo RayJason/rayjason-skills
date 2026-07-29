@@ -56,17 +56,18 @@ when no durable artifact changed.
 
 ## Scheduled governance
 
-After a successful one-time governance pass, ask whether the user wants
-recurring governance for:
+Use this section only when the user explicitly asks to create or review
+recurring-governance instructions. Do not offer a schedule merely because an
+`AGENTS.md` review finished.
+
+When recurring governance is in the requested scope, distinguish:
 
 - global instructions and installed skills;
 - project `AGENTS.md` and host adapters such as `CLAUDE.md`;
 - both scopes; or
 - neither.
 
-Do not create a schedule from silence or a generic interest in automation.
-Confirm cadence, target projects, execution surface, local versus isolated
-worktree behavior, permissions, and whether runs only report or may apply
-changes. Default to a weekly, report-only audit. Test the prompt manually and
-review early runs before allowing edits. Deleting or replacing skills and
-editing shared rules always require the authority selected by the user.
+Confirm cadence, target projects, execution surface, permissions, and whether
+runs only report or may apply changes. Do not choose a cadence, create a
+schedule, delete or replace skills, or edit shared rules without the user's
+explicit authority.

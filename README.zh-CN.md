@@ -8,26 +8,22 @@
 
 | Skill | 展示名 | 用途 | 状态 |
 | --- | --- | --- | --- |
-| [`harness-agents-md`](harness-agents-md/) | 驾驭 AGENTS.md | 分层治理全局与项目级 `AGENTS.md`，让规则可执行、可验证、可维护 | 可用 |
+| [`harness-agents-md`](harness-agents-md/) | 驾驭 AGENTS.md | 忠实创建、审查、重组或优化全局与项目级 Agent 指令 | 可用 |
 
 新增 Skill 时，在表格中增加一行，并在仓库根目录放置同名 Skill 目录。
 
 ## 驾驭 AGENTS.md
 
 `harness-agents-md` 面向 Codex、Claude Code、CodeBuddy、WorkBuddy
-及其他 Agent 宿主，工程化维护个人全局与项目代理规则。它覆盖：
+及其他 Agent 宿主，维护个人全局与项目级 Agent 指令。它：
 
-- 宿主能力识别与降级；
-- 全局与项目级规则链盘点、分层建议和作用域纠错；
-- 全局高内聚、低耦合与单文件 350 行默认规则，兼容用户已有约束；
-- 主分支保护、README/CONTRIBUTING 约定与单一职责分支策略；
-- 模块边界与协调者/执行者分工；
-- subAgent 默认不超过 5 个，文件/module 单一所有者，重叠任务顺序执行；
-- 基于证据的验证、发布与上下游交接；
-- 避免形式化文档膨胀的文档生命周期；
-- 既有 tasks/roadmap 发现与可选的项目进度文档管理；
-- 非必要不使用 worktree，并提供带自动安全测试的清理流程；
-- 完成治理后可选的 Schedule 周期审计。
+- 仅在用户明确要求创建、审查、重组或优化 `AGENTS.md` / Agent 指令时触发；
+- 发现当前机器实际生效的全局指令，并将其作为起草的主要基准；
+- 保留源文件语言、术语、阈值和用户已有选择；
+- 只添加可追溯到用户要求、既有全局指令或已验证仓库事实的规则；
+- 优先做简洁的最小改动，而不是生成通用政策。
+
+普通 Git、rebase、merge、release、实现和编码请求不会触发此 Skill。
 
 ## Install
 
@@ -68,8 +64,9 @@ bash -n harness-agents-md/scripts/*.sh
 harness-agents-md/scripts/test_cleanup_worktree.sh
 ```
 
-契约测试会验证发现元数据、按需 reference 路由和行为场景语料。跨宿主模型评估
-参见 [`evals/README.md`](harness-agents-md/evals/README.md)。
+契约测试会验证窄触发元数据、全局指令忠实性、按需 reference 路由和
+trigger/no-trigger 行为场景。跨宿主模型评估参见
+[`evals/README.md`](harness-agents-md/evals/README.md)。
 
 worktree 清理脚本默认只预览。使用 `--apply` 前应检查解析出的仓库、worktree、
 分支和目标引用。

@@ -9,7 +9,14 @@ SKILL_ROOT = Path(__file__).resolve().parent.parent
 SKILL_FILE = SKILL_ROOT / "SKILL.md"
 SCENARIOS_FILE = SKILL_ROOT / "evals" / "scenarios.json"
 WORKFLOW_FILE = SKILL_ROOT / "references" / "multi-agent-workflow.md"
+EXAMPLE_FILE = SKILL_ROOT / "assets" / "AGENTS.example.md"
 REFERENCE_PATTERN = re.compile(r"references/[a-z0-9-]+\.md")
+EXPLICIT_ACTION_PATTERN = re.compile(
+    r"\b(create|review|reorganize|optimize)\b", re.IGNORECASE
+)
+INSTRUCTION_TARGET_PATTERN = re.compile(
+    r"\bAGENTS\.md\b|\bagent instructions?\b", re.IGNORECASE
+)
 POLICY_SECTION_PATTERN = re.compile(
     r"^### (MA-[A-Z]+)\b[^\n]*\n(?P<body>.*?)(?=^### |^## |\Z)",
     re.MULTILINE | re.DOTALL,
@@ -26,6 +33,18 @@ REQUIRED_POLICY_FIELDS = (
     "**Control:**",
     "**Stop or override:**",
 )
+REQUIRED_GIT_NO_TRIGGER_SCENARIOS = {
+    "ordinary-rebase",
+    "ordinary-fast-forward",
+    "ordinary-merge",
+    "mention-agents-while-rebasing",
+}
+REQUIRED_FIDELITY_BOUNDARIES = {
+    "global AGENTS.md as primary source of truth",
+    "preserve English",
+    "concise result",
+    "no unsolicited rules",
+}
 
 
 def fail(message: str) -> None:
@@ -41,6 +60,8 @@ def load_description(text: str) -> str:
 
 def validate_scenarios(skill_text: str) -> list[dict]:
     payload = json.loads(SCENARIOS_FILE.read_text())
+    if payload.get("version", 0) < 2:
+        fail("scenario corpus must include the narrow-activation contract")
     scenarios = payload.get("scenarios", [])
     if len(scenarios) < 6:
         fail("provide at least six representative scenarios")
@@ -62,8 +83,13 @@ def validate_scenarios(skill_text: str) -> list[dict]:
             fail(f"{scenario['id']} expected_policies must be a list")
         if len(policies) != len(set(policies)):
             fail(f"{scenario['id']} has duplicate expected_policies")
-        if not scenario["expected_trigger"] and scenario["expected_references"]:
-            fail(f"{scenario['id']} loads references without triggering")
+        if scenario["expected_trigger"]:
+            if not EXPLICIT_ACTION_PATTERN.search(scenario["prompt"]):
+                fail(f"{scenario['id']} triggers without an explicit edit action")
+            if not INSTRUCTION_TARGET_PATTERN.search(scenario["prompt"]):
+                fail(f"{scenario['id']} triggers without an instruction target")
+        elif scenario["expected_references"] or policies:
+            fail(f"{scenario['id']} loads policy content without triggering")
         if policies and "references/multi-agent-workflow.md" not in scenario[
             "expected_references"
         ]:
@@ -73,6 +99,29 @@ def validate_scenarios(skill_text: str) -> list[dict]:
                 fail(f"{scenario['id']} references missing file {relative_path}")
             if relative_path not in skill_text:
                 fail(f"SKILL.md does not route to {relative_path}")
+
+    scenario_ids = set(ids)
+    missing_git_scenarios = REQUIRED_GIT_NO_TRIGGER_SCENARIOS - scenario_ids
+    if missing_git_scenarios:
+        fail(
+            "missing ordinary Git no-trigger scenarios "
+            f"{sorted(missing_git_scenarios)}"
+        )
+    for scenario in scenarios:
+        if (
+            scenario["id"] in REQUIRED_GIT_NO_TRIGGER_SCENARIOS
+            and scenario["expected_trigger"]
+        ):
+            fail(f"{scenario['id']} must not trigger the skill")
+
+    observed_boundaries = {
+        boundary
+        for scenario in scenarios
+        for boundary in scenario["critical_boundaries"]
+    }
+    missing_fidelity = REQUIRED_FIDELITY_BOUNDARIES - observed_boundaries
+    if missing_fidelity:
+        fail(f"missing global fidelity boundaries {sorted(missing_fidelity)}")
 
     return scenarios
 
@@ -123,31 +172,83 @@ def validate_multi_agent_contract(scenarios: list[dict]) -> None:
         )
 
 
+def validate_structure_only_example() -> None:
+    example = EXAMPLE_FILE.read_text()
+    if len(example.splitlines()) > 12:
+        fail("AGENTS example must remain a minimal structure-only fallback")
+    required = (
+        "Structure-only fallback",
+        "global AGENTS.md",
+        "verified repository facts",
+        "<One verified project-specific rule, if needed>",
+    )
+    for phrase in required:
+        if phrase not in example:
+            fail(f"AGENTS example is missing fidelity marker {phrase!r}")
+    forbidden = (
+        "Use subagents",
+        "one cohesive feature",
+        "branch protection",
+        "full test/build/release matrix",
+        "Ask whether project progress",
+    )
+    for phrase in forbidden:
+        if phrase in example:
+            fail(f"AGENTS example contains unsolicited policy {phrase!r}")
+
+
 def main() -> None:
     skill_text = SKILL_FILE.read_text()
     description = load_description(skill_text)
     lowered = description.lower()
-    if not any(term in lowered for term in ("not for", "不用于", "不适用于")):
-        fail("description must state a no-trigger boundary")
-    if not any(
-        term in lowered
-        for term in (
-            "complex",
-            "long-running",
-            "risky",
-            "复杂",
-            "长期",
-            "高风险",
-            "工程化",
-        )
-    ):
-        fail("description must state a positive trigger")
+    required_description_terms = (
+        "explicit user requests",
+        "create",
+        "review",
+        "reorganize",
+        "optimize",
+        "agents.md",
+        "agent instructions",
+        "only",
+    )
+    for term in required_description_terms:
+        if term not in lowered:
+            fail(f"description is missing narrow-activation term {term!r}")
+    forbidden_description_terms = (
+        "git",
+        "rebase",
+        "merge",
+        "fast-forward",
+        "release",
+        "implementation",
+        "coding",
+        "complex",
+        "risky",
+        "engineering",
+        "worktree",
+        "multi-agent",
+    )
+    for term in forbidden_description_terms:
+        if term in lowered:
+            fail(f"description contains unrelated retrieval term {term!r}")
 
     body = skill_text.split("---", 2)[-1]
     if len(body.splitlines()) > 100:
         fail("SKILL.md body must stay at or below 100 lines")
     if re.search(r"^Read `references/[^`]+`\.$", body, re.MULTILINE):
         fail("reference loading must be conditional, not unconditional")
+    normalized_body = re.sub(r"\s+", " ", body)
+    required_fidelity_terms = (
+        "primary source of truth",
+        "Preserve its language",
+        "Every added rule must be traceable",
+        "Do not add generic best practices",
+        "Prefer the smallest useful delta",
+        "stop using this skill",
+    )
+    for term in required_fidelity_terms:
+        if term not in normalized_body:
+            fail(f"SKILL.md is missing fidelity contract {term!r}")
 
     mentioned = set(REFERENCE_PATTERN.findall(body))
     available = {
@@ -162,6 +263,7 @@ def main() -> None:
 
     scenarios = validate_scenarios(skill_text)
     validate_multi_agent_contract(scenarios)
+    validate_structure_only_example()
     print("skill contract tests passed")
 
 

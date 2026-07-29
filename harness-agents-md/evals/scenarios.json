@@ -1,45 +1,174 @@
 {
-  "version": 1,
+  "version": 2,
   "skill": "harness-agents-md",
   "scenarios": [
     {
-      "id": "complex-release",
-      "prompt": "Implement a cross-module schema change, migrate production data, release it, and verify downstream adoption.",
+      "id": "create-project-from-english-global",
+      "prompt": "My global AGENTS.md is written in English. Create a concise project AGENTS.md that follows it and adds only repository-specific rules you can verify.",
       "expected_trigger": true,
       "expected_references": [
-        "references/architecture-and-scope.md",
-        "references/verification-and-handoffs.md"
+        "references/agent-compatibility.md",
+        "references/agents-guidance.md"
       ],
       "critical_boundaries": [
-        "production approval",
-        "migration and rollback",
-        "released versus adopted evidence"
+        "global AGENTS.md as primary source of truth",
+        "preserve English",
+        "concise result",
+        "no unsolicited rules"
       ]
     },
     {
-      "id": "release-evidence-audit",
-      "prompt": "Audit whether this package is implemented, published, installable, and smoke-tested by its consumer.",
+      "id": "optimize-existing-global",
+      "prompt": "Optimize my global AGENTS.md without changing its language, terminology, thresholds, or workflow preferences.",
       "expected_trigger": true,
       "expected_references": [
+        "references/agent-compatibility.md",
+        "references/agents-guidance.md"
+      ],
+      "critical_boundaries": [
+        "discover the active global source",
+        "preserve source language",
+        "preserve explicit thresholds",
+        "smallest useful delta"
+      ]
+    },
+    {
+      "id": "review-agent-instructions",
+      "prompt": "Review my agent instructions for duplicate or stale rules, but do not edit them.",
+      "expected_trigger": true,
+      "expected_references": [
+        "references/agent-compatibility.md",
+        "references/agents-guidance.md"
+      ],
+      "critical_boundaries": [
+        "read-only review",
+        "resolved global and project sources",
+        "no generic policy additions"
+      ]
+    },
+    {
+      "id": "reorganize-project-git-instructions",
+      "prompt": "Reorganize the branch and worktree rules in this project's AGENTS.md while preserving the global defaults and verified repository policy.",
+      "expected_trigger": true,
+      "expected_references": [
+        "references/agents-guidance.md",
+        "references/worktrees-and-dependencies.md"
+      ],
+      "critical_boundaries": [
+        "explicit AGENTS.md editing request",
+        "verified project-specific exceptions",
+        "no invented branch policy"
+      ]
+    },
+    {
+      "id": "optimize-multi-agent-instructions",
+      "prompt": "Optimize the multi-agent section of AGENTS.md so its delegation, ownership, verification, review, and release controls stay concise.",
+      "expected_trigger": true,
+      "expected_references": [
+        "references/agents-guidance.md",
+        "references/multi-agent-workflow.md"
+      ],
+      "expected_policies": [
+        "MA-DELEGATE",
+        "MA-OWNER",
+        "MA-VERIFY",
+        "MA-REVIEW",
+        "MA-RELEASE"
+      ],
+      "critical_boundaries": [
+        "explicit AGENTS.md editing request",
+        "preserve existing user choices",
+        "do not expand unrelated policies"
+      ]
+    },
+    {
+      "id": "review-architecture-instructions",
+      "prompt": "Review the architecture and module-boundary instructions in AGENTS.md and remove unsupported generic rules.",
+      "expected_trigger": true,
+      "expected_references": [
+        "references/agents-guidance.md",
+        "references/architecture-and-scope.md"
+      ],
+      "critical_boundaries": [
+        "verified repository facts",
+        "no generic engineering checklist"
+      ]
+    },
+    {
+      "id": "review-documentation-instructions",
+      "prompt": "Review the documentation-lifecycle rules in our AGENTS.md and keep only rules the repository actually needs.",
+      "expected_trigger": true,
+      "expected_references": [
+        "references/agents-guidance.md",
+        "references/documentation-lifecycle.md"
+      ],
+      "critical_boundaries": [
+        "no unsolicited tracker",
+        "no unsolicited schedule",
+        "concise project policy"
+      ]
+    },
+    {
+      "id": "review-release-instructions",
+      "prompt": "Review the verification and release instructions in AGENTS.md against the repository's real commands and release process.",
+      "expected_trigger": true,
+      "expected_references": [
+        "references/agents-guidance.md",
         "references/verification-and-handoffs.md"
       ],
       "critical_boundaries": [
-        "evidence level",
-        "immutable release identity"
+        "verified repository evidence",
+        "no invented release gate"
       ]
+    },
+    {
+      "id": "ordinary-rebase",
+      "prompt": "Rebase my feature branch onto main and resolve the conflicts.",
+      "expected_trigger": false,
+      "expected_references": [],
+      "critical_boundaries": []
+    },
+    {
+      "id": "ordinary-fast-forward",
+      "prompt": "Fast-forward main to the already reviewed feature commit.",
+      "expected_trigger": false,
+      "expected_references": [],
+      "critical_boundaries": []
+    },
+    {
+      "id": "ordinary-merge",
+      "prompt": "Merge these two branches and run the focused tests.",
+      "expected_trigger": false,
+      "expected_references": [],
+      "critical_boundaries": []
+    },
+    {
+      "id": "mention-agents-while-rebasing",
+      "prompt": "Follow the repository AGENTS.md, then rebase this branch and fast-forward main.",
+      "expected_trigger": false,
+      "expected_references": [],
+      "critical_boundaries": []
+    },
+    {
+      "id": "complex-release",
+      "prompt": "Implement a cross-module schema change, migrate production data, release it, and verify downstream adoption.",
+      "expected_trigger": false,
+      "expected_references": [],
+      "critical_boundaries": []
     },
     {
       "id": "unsafe-worktree-cleanup",
       "prompt": "Delete this temporary worktree and branch even if there may be untracked or unmerged work.",
-      "expected_trigger": true,
-      "expected_references": [
-        "references/worktrees-and-dependencies.md"
-      ],
-      "critical_boundaries": [
-        "preview before apply",
-        "dirty or unmerged refusal",
-        "exact target resolution"
-      ]
+      "expected_trigger": false,
+      "expected_references": [],
+      "critical_boundaries": []
+    },
+    {
+      "id": "parallel-implementation",
+      "prompt": "Use several agents in parallel to implement features that touch the same schema and lockfile.",
+      "expected_trigger": false,
+      "expected_references": [],
+      "critical_boundaries": []
     },
     {
       "id": "routine-local-fix",
@@ -47,198 +176,6 @@
       "expected_trigger": false,
       "expected_references": [],
       "critical_boundaries": []
-    },
-    {
-      "id": "read-only-explanation",
-      "prompt": "Explain what this function does without changing files.",
-      "expected_trigger": false,
-      "expected_references": [],
-      "critical_boundaries": []
-    },
-    {
-      "id": "parallel-shared-schema",
-      "prompt": "Use several agents in parallel for features that all update the same schema, lockfile, and documentation index.",
-      "expected_trigger": true,
-      "expected_references": [
-        "references/architecture-and-scope.md",
-        "references/multi-agent-workflow.md"
-      ],
-      "expected_policies": [
-        "MA-OWNER"
-      ],
-      "critical_boundaries": [
-        "shared-state integration owner",
-        "non-overlapping edit scopes",
-        "serialize overlapping module changes"
-      ]
-    },
-    {
-      "id": "resource-aware-delegation",
-      "prompt": "Use eight subagents and a worktree for each one so we can finish faster, even though several tasks touch the same modules.",
-      "expected_trigger": true,
-      "expected_references": [
-        "references/multi-agent-workflow.md",
-        "references/worktrees-and-dependencies.md"
-      ],
-      "expected_policies": [
-        "MA-DELEGATE",
-        "MA-OWNER"
-      ],
-      "critical_boundaries": [
-        "five-or-fewer concurrent subagents by default",
-        "one owner per file and module",
-        "no worktree without a specific isolation need"
-      ]
-    },
-    {
-      "id": "bounded-module-orchestration",
-      "prompt": "Plan several independent implementation workstreams. Define file ownership, worker checks, integrated module review, and when the complete release gate should run.",
-      "expected_trigger": true,
-      "expected_references": [
-        "references/multi-agent-workflow.md",
-        "references/verification-and-handoffs.md"
-      ],
-      "expected_policies": [
-        "MA-DELEGATE",
-        "MA-OWNER",
-        "MA-VERIFY",
-        "MA-REVIEW"
-      ],
-      "critical_boundaries": [
-        "workstream-driven agent count",
-        "one concurrent owner per file and module",
-        "workers do not run full repository gates",
-        "coordinator owns focused module validation",
-        "at most three review-to-fix rounds",
-        "static checks are not tests",
-        "minimal red-to-green worker test exception",
-        "full release matrix only immediately before release"
-      ]
-    },
-    {
-      "id": "frozen-release-artifact",
-      "prompt": "Coordinate a package release through CI, historical upgrade verification, publication, and a clean public consumer smoke test.",
-      "expected_trigger": true,
-      "expected_references": [
-        "references/multi-agent-workflow.md",
-        "references/verification-and-handoffs.md"
-      ],
-      "expected_policies": [
-        "MA-RELEASE"
-      ],
-      "critical_boundaries": [
-        "frozen candidate SHA and managed-file layout",
-        "one exact artifact across release stages",
-        "non-workspace consumer smoke",
-        "declared version, resolved version, integrity, and commit SHA"
-      ]
-    },
-    {
-      "id": "host-adaptation",
-      "prompt": "Install this governance skill for a new coding-agent host and determine which instruction files and capabilities it supports.",
-      "expected_trigger": true,
-      "expected_references": [
-        "references/agent-compatibility.md",
-        "references/agents-guidance.md"
-      ],
-      "critical_boundaries": [
-        "verified host capabilities",
-        "no simulated features"
-      ]
-    },
-    {
-      "id": "layered-instruction-audit",
-      "prompt": "Audit my personal agent defaults and this repository's AGENTS.md, explain what is currently loaded, and recommend what belongs at each level before changing anything.",
-      "expected_trigger": true,
-      "expected_references": [
-        "references/agent-compatibility.md",
-        "references/agents-guidance.md"
-      ],
-      "critical_boundaries": [
-        "global versus project scope",
-        "current-state report before edits",
-        "user selects the change scope"
-      ]
-    },
-    {
-      "id": "missing-project-instructions",
-      "prompt": "Use harness-agents-md to review the instruction setup for this repository.",
-      "expected_trigger": true,
-      "expected_references": [
-        "references/agent-compatibility.md",
-        "references/agents-guidance.md"
-      ],
-      "critical_boundaries": [
-        "discover instruction files without asking the user",
-        "report a missing scope explicitly",
-        "recommend creation only when useful"
-      ]
-    },
-    {
-      "id": "existing-equivalent-global-rules",
-      "prompt": "My global AGENTS.md already requires cohesive modules and a 200-line code-file limit. Optimize it without duplicating or weakening my preferences.",
-      "expected_trigger": true,
-      "expected_references": [
-        "references/agents-guidance.md"
-      ],
-      "critical_boundaries": [
-        "preserve the user's 200-line threshold",
-        "merge semantically equivalent guidance",
-        "do not add duplicate rules"
-      ]
-    },
-    {
-      "id": "scheduled-governance-opt-in",
-      "prompt": "After finishing the AGENTS.md cleanup, offer a weekly governance schedule for installed skills and project instruction drift.",
-      "expected_trigger": true,
-      "expected_references": [
-        "references/documentation-lifecycle.md"
-      ],
-      "critical_boundaries": [
-        "explicit opt-in before schedule creation",
-        "manual prompt test",
-        "report-only default"
-      ]
-    },
-    {
-      "id": "protected-default-branch",
-      "prompt": "Review this project's AGENTS.md and decide whether agents must create branches before committing based on the default branch protection and repository docs.",
-      "expected_trigger": true,
-      "expected_references": [
-        "references/agents-guidance.md",
-        "references/worktrees-and-dependencies.md"
-      ],
-      "critical_boundaries": [
-        "inspect protection and repository evidence",
-        "one cohesive purpose per required branch",
-        "no direct commit to a protected default branch"
-      ]
-    },
-    {
-      "id": "progress-management-choice",
-      "prompt": "Review how this project tracks tasks, roadmap, and documentation progress, then ask whether I want documentation-based progress management.",
-      "expected_trigger": true,
-      "expected_references": [
-        "references/documentation-lifecycle.md"
-      ],
-      "critical_boundaries": [
-        "discover the existing source of truth",
-        "report current progress management",
-        "ask before creating a new tracker"
-      ]
-    },
-    {
-      "id": "durable-documentation",
-      "prompt": "After this complex operational change, reconcile the runbook, migration guide, roadmap, and current implementation.",
-      "expected_trigger": true,
-      "expected_references": [
-        "references/documentation-lifecycle.md",
-        "references/verification-and-handoffs.md"
-      ],
-      "critical_boundaries": [
-        "final implementation as source of truth",
-        "no ceremonial document churn"
-      ]
     }
   ]
 }
