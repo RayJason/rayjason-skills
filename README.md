@@ -15,23 +15,22 @@ name at the repository root.
 
 ## Harness AGENTS.md
 
-`harness-agents-md` maintains personal, global, and project agent instructions
-for Codex, Claude Code, CodeBuddy, WorkBuddy, and other agent hosts. It:
+`harness-agents-md` is a small engineering aid for personal, global, and
+project agent instructions. It:
 
 - activates only for an explicit request to create, review, reorganize, or
   optimize `AGENTS.md` or agent instructions;
-- discovers the active machine's global instructions and uses them as the
-  exact primary drafting baseline when present;
-- selects a concise packaged engineering baseline when global instructions are
-  missing, including Git/change safety, independent-workstream delegation,
-  exclusive ownership, and coordinator-owned integration and validation;
-- preserves the source language, terminology, thresholds, and user choices;
-- adds only rules traceable to the request, the selected baseline, or verified
-  repository facts; and
-- prefers a concise delta over generic policy generation.
+- follows the active global source faithfully when it exists;
+- uses a concise packaged fallback when it does not; and
+- makes the smallest change supported by the request, selected baseline, and
+  verified repository facts.
 
 Ordinary Git, rebase, merge, release, implementation, and coding requests do
 not trigger this skill.
+
+The package deliberately contains no release playbook, worktree utility,
+tracking system, schedule workflow, or host-specific reference library. Capable
+models do not need those policies duplicated in this skill.
 
 ## Install
 
@@ -50,11 +49,6 @@ Update an installed skill:
 npx skills update harness-agents-md --global --yes
 ```
 
-WorkBuddy users can import a local skill package from the Skills interface.
-
-Host behavior may change. Before relying on automatic instruction loading, see
-[`agent-compatibility.md`](harness-agents-md/references/agent-compatibility.md).
-
 ## Develop
 
 Clone the repository over SSH:
@@ -68,19 +62,13 @@ git clone git@github.com:RayJason/rayjason-skills.git
 ```bash
 python3 /path/to/skill-creator/scripts/quick_validate.py harness-agents-md
 python3 harness-agents-md/scripts/test_skill_contract.py
-bash -n harness-agents-md/scripts/*.sh
-harness-agents-md/scripts/test_cleanup_worktree.sh
 ```
 
-The contract tests validate narrow discovery metadata, present-global fidelity,
-missing-global fallback policy, on-demand reference routing, and
-trigger/no-trigger scenario fixtures. See
+The contract tests validate the deliberately small package, narrow activation,
+present-global fidelity, missing-global fallback, and trigger/no-trigger
+scenarios. See
 [`evals/README.md`](harness-agents-md/evals/README.md) for cross-host model
 evaluations.
-
-The worktree cleanup script only previews changes by default. Before using
-`--apply`, inspect the resolved repository, worktree, branch, and target
-reference.
 
 ## License
 

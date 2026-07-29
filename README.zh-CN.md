@@ -14,18 +14,18 @@
 
 ## 驾驭 AGENTS.md
 
-`harness-agents-md` 面向 Codex、Claude Code、CodeBuddy、WorkBuddy
-及其他 Agent 宿主，维护个人全局与项目级 Agent 指令。它：
+`harness-agents-md` 是一个用于维护个人全局与项目级 Agent 指令的小型工程辅助
+Skill。它：
 
 - 仅在用户明确要求创建、审查、重组或优化 `AGENTS.md` / Agent 指令时触发；
-- 发现当前机器实际生效的全局指令；存在时将其作为完全忠实的主要基准；
-- 全局指令缺失时选择简洁的内置工程基准，其中包含 Git/变更安全、仅委派独立
-  workstream、排他所有权，以及协调者负责集成和最终验证；
-- 保留源文件语言、术语、阈值和用户已有选择；
-- 只添加可追溯到用户要求、所选基准或已验证仓库事实的规则；
-- 优先做简洁的最小改动，而不是生成通用政策。
+- 全局指令存在时忠实沿用；
+- 全局指令缺失时使用简洁的内置工程 fallback；
+- 只做用户要求、所选基准和已验证仓库事实支持的最小改动。
 
 普通 Git、rebase、merge、release、实现和编码请求不会触发此 Skill。
+
+包内刻意不再提供 release 流程、worktree 工具、进度追踪、Schedule 工作流或
+宿主专用 reference 库；能力足够的模型不需要 Skill 重复约束这些内容。
 
 ## Install
 
@@ -44,11 +44,6 @@ npx skills add RayJason/rayjason-skills --skill harness-agents-md --global
 npx skills update harness-agents-md --global --yes
 ```
 
-WorkBuddy 用户可以从 Skills 界面导入本地 Skill 包。
-
-宿主行为可能变化。依赖自动加载指令前，请查看
-[`agent-compatibility.md`](harness-agents-md/references/agent-compatibility.md)。
-
 ## Develop
 
 通过 SSH 克隆仓库：
@@ -62,16 +57,11 @@ git clone git@github.com:RayJason/rayjason-skills.git
 ```bash
 python3 /path/to/skill-creator/scripts/quick_validate.py harness-agents-md
 python3 harness-agents-md/scripts/test_skill_contract.py
-bash -n harness-agents-md/scripts/*.sh
-harness-agents-md/scripts/test_cleanup_worktree.sh
 ```
 
-契约测试会验证窄触发元数据、已有全局指令忠实性、缺失全局指令时的内置
-fallback、按需 reference 路由和 trigger/no-trigger 行为场景。跨宿主模型评估参见
+契约测试会验证精简后的包结构、窄触发元数据、已有全局指令忠实性、缺失
+全局指令时的 fallback，以及 trigger/no-trigger 行为场景。跨宿主模型评估参见
 [`evals/README.md`](harness-agents-md/evals/README.md)。
-
-worktree 清理脚本默认只预览。使用 `--apply` 前应检查解析出的仓库、worktree、
-分支和目标引用。
 
 ## License
 

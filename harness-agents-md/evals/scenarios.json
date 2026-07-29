@@ -1,202 +1,95 @@
 {
-  "version": 3,
+  "version": 4,
   "skill": "harness-agents-md",
   "scenarios": [
     {
-      "id": "create-project-from-english-global",
-      "prompt": "My global AGENTS.md is written in English. Create a concise project AGENTS.md that follows it and adds only repository-specific rules you can verify.",
+      "id": "create-from-present-global",
+      "prompt": "My global AGENTS.md is in English. Create a concise project AGENTS.md that follows it.",
       "expected_trigger": true,
-      "expected_references": [
-        "references/agent-compatibility.md",
-        "references/agents-guidance.md"
-      ],
       "critical_boundaries": [
-        "global AGENTS.md as primary source of truth",
-        "preserve English",
-        "concise result",
-        "no unsolicited rules",
-        "do not merge packaged fallback into a present global source"
+        "present global source is the exact baseline",
+        "preserve source language and thresholds",
+        "do not mix packaged fallback",
+        "smallest useful change"
       ]
     },
     {
-      "id": "no-global-engineering-fallback",
-      "prompt": "No global AGENTS.md exists on this new machine. Create a concise global AGENTS.md using the skill's engineering fallback.",
+      "id": "create-from-missing-global",
+      "prompt": "No global AGENTS.md exists on this machine. Create one using the packaged engineering fallback.",
       "expected_trigger": true,
       "expected_fallback": "assets/AGENTS.example.md",
-      "expected_references": [
-        "references/agent-compatibility.md",
-        "references/agents-guidance.md"
-      ],
       "critical_boundaries": [
-        "select assets/AGENTS.example.md",
-        "continue instead of report-only",
-        "packaged engineering default",
+        "select fallback and continue",
+        "safe change preservation",
         "independent non-conflicting delegation",
-        "coordinator-owned integration and final validation",
+        "coordinator owns integration and final validation",
         "exclusive file and module ownership",
-        "focused worker validation and consolidated final validation",
-        "no mechanical agent roles",
-        "Git and scope safety"
-      ]
-    },
-    {
-      "id": "optimize-existing-global",
-      "prompt": "Optimize my global AGENTS.md without changing its language, terminology, thresholds, or workflow preferences.",
-      "expected_trigger": true,
-      "expected_references": [
-        "references/agent-compatibility.md",
-        "references/agents-guidance.md"
-      ],
-      "critical_boundaries": [
-        "discover the active global source",
-        "preserve source language",
-        "preserve explicit thresholds",
-        "smallest useful delta"
+        "focused worker checks",
+        "no fixed agent roles"
       ]
     },
     {
       "id": "review-agent-instructions",
-      "prompt": "Review my agent instructions for duplicate or stale rules, but do not edit them.",
+      "prompt": "Review my agent instructions for duplicate or unsupported rules without editing them.",
       "expected_trigger": true,
-      "expected_references": [
-        "references/agent-compatibility.md",
-        "references/agents-guidance.md"
-      ],
       "critical_boundaries": [
         "read-only review",
-        "resolved global and project sources",
-        "no generic policy additions"
+        "no generic additions"
       ]
     },
     {
-      "id": "reorganize-project-git-instructions",
-      "prompt": "Reorganize the branch and worktree rules in this project's AGENTS.md while preserving the global defaults and verified repository policy.",
+      "id": "reorganize-project-instructions",
+      "prompt": "Reorganize this project's AGENTS.md while preserving inherited global preferences.",
       "expected_trigger": true,
-      "expected_references": [
-        "references/agents-guidance.md",
-        "references/worktrees-and-dependencies.md"
-      ],
       "critical_boundaries": [
-        "explicit AGENTS.md editing request",
-        "verified project-specific exceptions",
-        "no invented branch policy"
+        "project-only scope",
+        "global file remains unchanged"
       ]
     },
     {
-      "id": "optimize-multi-agent-instructions",
-      "prompt": "Optimize the multi-agent section of AGENTS.md so its delegation, ownership, verification, review, and release controls stay concise.",
+      "id": "optimize-global-instructions",
+      "prompt": "Optimize my global AGENTS.md without changing its language or explicit thresholds.",
       "expected_trigger": true,
-      "expected_references": [
-        "references/agents-guidance.md",
-        "references/multi-agent-workflow.md"
-      ],
-      "expected_policies": [
-        "MA-DELEGATE",
-        "MA-OWNER",
-        "MA-VERIFY",
-        "MA-REVIEW",
-        "MA-RELEASE"
-      ],
       "critical_boundaries": [
-        "explicit AGENTS.md editing request",
-        "preserve existing user choices",
-        "do not expand unrelated policies"
-      ]
-    },
-    {
-      "id": "review-architecture-instructions",
-      "prompt": "Review the architecture and module-boundary instructions in AGENTS.md and remove unsupported generic rules.",
-      "expected_trigger": true,
-      "expected_references": [
-        "references/agents-guidance.md",
-        "references/architecture-and-scope.md"
-      ],
-      "critical_boundaries": [
-        "verified repository facts",
-        "no generic engineering checklist"
-      ]
-    },
-    {
-      "id": "review-documentation-instructions",
-      "prompt": "Review the documentation-lifecycle rules in our AGENTS.md and keep only rules the repository actually needs.",
-      "expected_trigger": true,
-      "expected_references": [
-        "references/agents-guidance.md",
-        "references/documentation-lifecycle.md"
-      ],
-      "critical_boundaries": [
-        "no unsolicited tracker",
-        "no unsolicited schedule",
-        "concise project policy"
-      ]
-    },
-    {
-      "id": "review-release-instructions",
-      "prompt": "Review the verification and release instructions in AGENTS.md against the repository's real commands and release process.",
-      "expected_trigger": true,
-      "expected_references": [
-        "references/agents-guidance.md",
-        "references/verification-and-handoffs.md"
-      ],
-      "critical_boundaries": [
-        "verified repository evidence",
-        "no invented release gate"
+        "preserve language and thresholds",
+        "merge duplicates",
+        "no unsolicited workflow"
       ]
     },
     {
       "id": "ordinary-rebase",
-      "prompt": "Rebase my feature branch onto main and resolve the conflicts.",
+      "prompt": "Rebase my feature branch onto main and resolve conflicts.",
       "expected_trigger": false,
-      "expected_references": [],
       "critical_boundaries": []
     },
     {
       "id": "ordinary-fast-forward",
-      "prompt": "Fast-forward main to the already reviewed feature commit.",
+      "prompt": "Fast-forward main to the reviewed feature commit.",
       "expected_trigger": false,
-      "expected_references": [],
       "critical_boundaries": []
     },
     {
       "id": "ordinary-merge",
-      "prompt": "Merge these two branches and run the focused tests.",
+      "prompt": "Merge these branches and run focused tests.",
       "expected_trigger": false,
-      "expected_references": [],
       "critical_boundaries": []
     },
     {
       "id": "mention-agents-while-rebasing",
-      "prompt": "Follow the repository AGENTS.md, then rebase this branch and fast-forward main.",
+      "prompt": "Follow AGENTS.md, then rebase this branch and fast-forward main.",
       "expected_trigger": false,
-      "expected_references": [],
-      "critical_boundaries": []
-    },
-    {
-      "id": "complex-release",
-      "prompt": "Implement a cross-module schema change, migrate production data, release it, and verify downstream adoption.",
-      "expected_trigger": false,
-      "expected_references": [],
-      "critical_boundaries": []
-    },
-    {
-      "id": "unsafe-worktree-cleanup",
-      "prompt": "Delete this temporary worktree and branch even if there may be untracked or unmerged work.",
-      "expected_trigger": false,
-      "expected_references": [],
       "critical_boundaries": []
     },
     {
       "id": "parallel-implementation",
-      "prompt": "Use several agents in parallel to implement features that touch the same schema and lockfile.",
+      "prompt": "Use several agents in parallel to implement these independent features.",
       "expected_trigger": false,
-      "expected_references": [],
       "critical_boundaries": []
     },
     {
-      "id": "routine-local-fix",
-      "prompt": "Fix this typo in one source file and run the repository's documented unit test.",
+      "id": "release-request",
+      "prompt": "Build, publish, and verify this package release.",
       "expected_trigger": false,
-      "expected_references": [],
       "critical_boundaries": []
     }
   ]
