@@ -21,10 +21,13 @@ for Codex, Claude Code, CodeBuddy, WorkBuddy, and other agent hosts. It:
 - activates only for an explicit request to create, review, reorganize, or
   optimize `AGENTS.md` or agent instructions;
 - discovers the active machine's global instructions and uses them as the
-  primary drafting baseline;
+  exact primary drafting baseline when present;
+- selects a concise packaged engineering baseline when global instructions are
+  missing, including Git/change safety, independent-workstream delegation,
+  exclusive ownership, and coordinator-owned integration and validation;
 - preserves the source language, terminology, thresholds, and user choices;
-- adds only rules traceable to the request, existing global instructions, or
-  verified repository facts; and
+- adds only rules traceable to the request, the selected baseline, or verified
+  repository facts; and
 - prefers a concise delta over generic policy generation.
 
 Ordinary Git, rebase, merge, release, implementation, and coding requests do
@@ -69,9 +72,9 @@ bash -n harness-agents-md/scripts/*.sh
 harness-agents-md/scripts/test_cleanup_worktree.sh
 ```
 
-The contract tests validate narrow discovery metadata, global-instruction
-fidelity, on-demand reference routing, and trigger/no-trigger scenario fixtures.
-See
+The contract tests validate narrow discovery metadata, present-global fidelity,
+missing-global fallback policy, on-demand reference routing, and
+trigger/no-trigger scenario fixtures. See
 [`evals/README.md`](harness-agents-md/evals/README.md) for cross-host model
 evaluations.
 

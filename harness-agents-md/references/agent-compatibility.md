@@ -10,9 +10,12 @@ delegation, permission models, and automation are host adapters.
   `AGENTS.override.md` and `AGENTS.md`; the first non-empty file in that order
   is the active global source.
 - Read that file before drafting. Treat it as the primary source of truth for
-  user defaults and output language. If the home or file is inaccessible,
-  report that limitation instead of substituting the installed skill, an
-  example, or remembered content.
+  user defaults and output language.
+- If both candidates are confirmed missing or empty, select
+  `assets/AGENTS.example.md` as the packaged engineering fallback and continue
+  the requested instruction work. Report that selection. If the Codex home is
+  inaccessible instead, disclose the limitation rather than claiming the files
+  are missing.
 - Project instructions: from the project root to the current directory, read at
   most one applicable instruction file per directory. More specific files
   appear later and take precedence.

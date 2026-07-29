@@ -18,9 +18,11 @@
 及其他 Agent 宿主，维护个人全局与项目级 Agent 指令。它：
 
 - 仅在用户明确要求创建、审查、重组或优化 `AGENTS.md` / Agent 指令时触发；
-- 发现当前机器实际生效的全局指令，并将其作为起草的主要基准；
+- 发现当前机器实际生效的全局指令；存在时将其作为完全忠实的主要基准；
+- 全局指令缺失时选择简洁的内置工程基准，其中包含 Git/变更安全、仅委派独立
+  workstream、排他所有权，以及协调者负责集成和最终验证；
 - 保留源文件语言、术语、阈值和用户已有选择；
-- 只添加可追溯到用户要求、既有全局指令或已验证仓库事实的规则；
+- 只添加可追溯到用户要求、所选基准或已验证仓库事实的规则；
 - 优先做简洁的最小改动，而不是生成通用政策。
 
 普通 Git、rebase、merge、release、实现和编码请求不会触发此 Skill。
@@ -64,8 +66,8 @@ bash -n harness-agents-md/scripts/*.sh
 harness-agents-md/scripts/test_cleanup_worktree.sh
 ```
 
-契约测试会验证窄触发元数据、全局指令忠实性、按需 reference 路由和
-trigger/no-trigger 行为场景。跨宿主模型评估参见
+契约测试会验证窄触发元数据、已有全局指令忠实性、缺失全局指令时的内置
+fallback、按需 reference 路由和 trigger/no-trigger 行为场景。跨宿主模型评估参见
 [`evals/README.md`](harness-agents-md/evals/README.md)。
 
 worktree 清理脚本默认只预览。使用 `--apply` 前应检查解析出的仓库、worktree、

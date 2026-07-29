@@ -44,6 +44,18 @@ REQUIRED_FIDELITY_BOUNDARIES = {
     "preserve English",
     "concise result",
     "no unsolicited rules",
+    "do not merge packaged fallback into a present global source",
+}
+REQUIRED_FALLBACK_BOUNDARIES = {
+    "select assets/AGENTS.example.md",
+    "continue instead of report-only",
+    "packaged engineering default",
+    "independent non-conflicting delegation",
+    "coordinator-owned integration and final validation",
+    "exclusive file and module ownership",
+    "focused worker validation and consolidated final validation",
+    "no mechanical agent roles",
+    "Git and scope safety",
 }
 
 
@@ -60,8 +72,8 @@ def load_description(text: str) -> str:
 
 def validate_scenarios(skill_text: str) -> list[dict]:
     payload = json.loads(SCENARIOS_FILE.read_text())
-    if payload.get("version", 0) < 2:
-        fail("scenario corpus must include the narrow-activation contract")
+    if payload.get("version", 0) < 3:
+        fail("scenario corpus must include the missing-global fallback contract")
     scenarios = payload.get("scenarios", [])
     if len(scenarios) < 6:
         fail("provide at least six representative scenarios")
@@ -90,6 +102,14 @@ def validate_scenarios(skill_text: str) -> list[dict]:
                 fail(f"{scenario['id']} triggers without an instruction target")
         elif scenario["expected_references"] or policies:
             fail(f"{scenario['id']} loads policy content without triggering")
+        expected_fallback = scenario.get("expected_fallback")
+        if expected_fallback:
+            if not scenario["expected_trigger"]:
+                fail(f"{scenario['id']} selects fallback without triggering")
+            if expected_fallback != "assets/AGENTS.example.md":
+                fail(f"{scenario['id']} selects unknown fallback {expected_fallback}")
+            if not (SKILL_ROOT / expected_fallback).is_file():
+                fail(f"{scenario['id']} fallback file is missing")
         if policies and "references/multi-agent-workflow.md" not in scenario[
             "expected_references"
         ]:
@@ -122,6 +142,17 @@ def validate_scenarios(skill_text: str) -> list[dict]:
     missing_fidelity = REQUIRED_FIDELITY_BOUNDARIES - observed_boundaries
     if missing_fidelity:
         fail(f"missing global fidelity boundaries {sorted(missing_fidelity)}")
+    missing_fallback = REQUIRED_FALLBACK_BOUNDARIES - observed_boundaries
+    if missing_fallback:
+        fail(f"missing engineering fallback boundaries {sorted(missing_fallback)}")
+
+    fallback_scenarios = [
+        scenario for scenario in scenarios if scenario.get("expected_fallback")
+    ]
+    if [scenario["id"] for scenario in fallback_scenarios] != [
+        "no-global-engineering-fallback"
+    ]:
+        fail("exactly one canonical no-global fallback scenario is required")
 
     return scenarios
 
@@ -172,29 +203,38 @@ def validate_multi_agent_contract(scenarios: list[dict]) -> None:
         )
 
 
-def validate_structure_only_example() -> None:
+def validate_engineering_fallback() -> None:
     example = EXAMPLE_FILE.read_text()
-    if len(example.splitlines()) > 12:
-        fail("AGENTS example must remain a minimal structure-only fallback")
+    lines = example.splitlines()
+    if len(lines) > 45:
+        fail("AGENTS engineering fallback must stay concise")
+    normalized = re.sub(r"\s+", " ", example).lower()
     required = (
-        "Structure-only fallback",
-        "global AGENTS.md",
-        "verified repository facts",
-        "<One verified project-specific rule, if needed>",
+        "# git and change safety",
+        "one cohesive feature, fix, or documentation slice",
+        "never revert, overwrite, or absorb unrelated user changes",
+        "do not require a pull request or worktree by default",
+        "# agent workflow",
+        "delegate only independent, non-conflicting workstreams",
+        "the coordinator owns decomposition, file and module ownership, "
+        "integration order, consolidated review, and final validation",
+        "do not create a mechanical implementer/reviewer/release trio",
+        "never assign concurrent agents to the same file or module",
+        "give shared state one owner or serialize overlapping work",
+        "workers run only the smallest targeted check",
+        "the coordinator performs one consolidated review and runs focused "
+        "final validation",
+        "# scope and design",
+        "stay within the requested scope",
+        "stable, explicit interfaces",
+        "at or below 350 lines",
+        "# tool defaults",
+        "prefer bun",
+        "do not use playwright or chrome",
     )
     for phrase in required:
-        if phrase not in example:
-            fail(f"AGENTS example is missing fidelity marker {phrase!r}")
-    forbidden = (
-        "Use subagents",
-        "one cohesive feature",
-        "branch protection",
-        "full test/build/release matrix",
-        "Ask whether project progress",
-    )
-    for phrase in forbidden:
-        if phrase in example:
-            fail(f"AGENTS example contains unsolicited policy {phrase!r}")
+        if phrase not in normalized:
+            fail(f"AGENTS engineering fallback is missing policy {phrase!r}")
 
 
 def main() -> None:
@@ -239,10 +279,13 @@ def main() -> None:
         fail("reference loading must be conditional, not unconditional")
     normalized_body = re.sub(r"\s+", " ", body)
     required_fidelity_terms = (
-        "primary source of truth",
+        "exact primary source of truth",
         "Preserve its language",
+        "Do not merge packaged defaults into it",
+        "select `assets/AGENTS.example.md`",
+        "packaged engineering fallback baseline and continue",
+        "State that fallback was used",
         "Every added rule must be traceable",
-        "Do not add generic best practices",
         "Prefer the smallest useful delta",
         "stop using this skill",
     )
@@ -263,7 +306,7 @@ def main() -> None:
 
     scenarios = validate_scenarios(skill_text)
     validate_multi_agent_contract(scenarios)
-    validate_structure_only_example()
+    validate_engineering_fallback()
     print("skill contract tests passed")
 
 

@@ -12,17 +12,22 @@ this skill must not affect ordinary repository work.
 
 1. Discover the active host's global instruction source before drafting. For
    Codex discovery and precedence, load `references/agent-compatibility.md`.
-2. When a global `AGENTS.md` or equivalent exists, use it as the primary source
-   of truth for drafting style and user defaults. Preserve its language, tone,
-   terminology, thresholds, and intent unless the user explicitly requests a
-   change or translation.
-3. Change only the scope the user requested. A project-only request may read
+2. When a global `AGENTS.md` or equivalent exists, use it as the exact primary
+   source of truth for drafting style and user defaults. Preserve its language,
+   tone, terminology, thresholds, and intent unless the user explicitly
+   requests a change or translation. Do not merge packaged defaults into it.
+3. When no global source exists, select `assets/AGENTS.example.md` as the
+   packaged engineering fallback baseline and continue the requested work.
+   State that fallback was used. Adapt it only for the requested scope and
+   verified repository facts; do not present it as the user's existing policy.
+4. Change only the scope the user requested. A project-only request may read
    global instructions as a baseline but must not rewrite them.
-4. Every added rule must be traceable to the user's request, an existing global
-   rule, or a verified repository fact needed for the requested scope.
-   References and examples are aids, not policy sources. Do not add generic best
-   practices, workflow machinery, schedules, or progress tracking unasked.
-5. Prefer the smallest useful delta. Merge duplicates and remove stale text
+5. Every added rule must be traceable to the user's request, a present global
+   rule, the selected missing-global fallback, or a verified repository fact
+   needed for the requested scope. Other references are aids, not policy
+   sources. Do not add unrelated workflow machinery, schedules, or progress
+   tracking unasked.
+6. Prefer the smallest useful delta. Merge duplicates and remove stale text
    when requested; if no change is justified, say so. Keep the result concise.
 
 ## Workflow
@@ -30,10 +35,11 @@ this skill must not affect ordinary repository work.
 1. Resolve the requested action and target. If the user did not explicitly ask
    to create, review, reorganize, or optimize `AGENTS.md` or agent instructions,
    stop using this skill.
-2. Read the discovered global source first, then the applicable project chain
-   and target file. Report a missing or inaccessible global source; never
-   replace it silently with bundled guidance.
-3. Audit only the requested concerns. Distinguish inherited global preferences
+2. Inspect the global location first. Read the active global source when
+   present; when confirmed missing, load the packaged fallback. If discovery is
+   inaccessible rather than missing, disclose that uncertainty.
+3. Read the applicable project chain and target file. Audit only the requested
+   concerns. Distinguish inherited global preferences or fallback defaults
    from verified project-specific exceptions and host-specific adapters.
 4. Apply the authorized edit or give the requested review. Ask a question only
    when unresolved scope would materially change the result.
@@ -58,6 +64,6 @@ Load only what the explicit instruction-editing request needs:
 - Verification, release, migration, or handoff instruction sections:
   `references/verification-and-handoffs.md`.
 
-When creating a file from scratch, `assets/AGENTS.example.md` is a
-structure-only fallback. It never overrides the discovered global source and
-must not be copied as a policy checklist.
+`assets/AGENTS.example.md` is used only when global instructions are confirmed
+missing. It is the packaged engineering default in that case, never an override
+or supplement for a present global source.

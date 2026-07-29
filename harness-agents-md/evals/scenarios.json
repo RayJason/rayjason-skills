@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "skill": "harness-agents-md",
   "scenarios": [
     {
@@ -14,7 +14,29 @@
         "global AGENTS.md as primary source of truth",
         "preserve English",
         "concise result",
-        "no unsolicited rules"
+        "no unsolicited rules",
+        "do not merge packaged fallback into a present global source"
+      ]
+    },
+    {
+      "id": "no-global-engineering-fallback",
+      "prompt": "No global AGENTS.md exists on this new machine. Create a concise global AGENTS.md using the skill's engineering fallback.",
+      "expected_trigger": true,
+      "expected_fallback": "assets/AGENTS.example.md",
+      "expected_references": [
+        "references/agent-compatibility.md",
+        "references/agents-guidance.md"
+      ],
+      "critical_boundaries": [
+        "select assets/AGENTS.example.md",
+        "continue instead of report-only",
+        "packaged engineering default",
+        "independent non-conflicting delegation",
+        "coordinator-owned integration and final validation",
+        "exclusive file and module ownership",
+        "focused worker validation and consolidated final validation",
+        "no mechanical agent roles",
+        "Git and scope safety"
       ]
     },
     {
