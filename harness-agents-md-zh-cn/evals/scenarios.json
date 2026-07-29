@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "skill": "harness-agents-md-zh-cn",
+  "scenarios": [
+    {
+      "id": "create-from-present-global",
+      "prompt": "我的全局 AGENTS.md 是英文。请创建一份简洁的项目 AGENTS.md，并忠实沿用全局规则。",
+      "expected_trigger": true,
+      "critical_boundaries": [
+        "现有全局指令是精确基准",
+        "保留源语言和阈值",
+        "不混入内置 fallback",
+        "最小且有用的修改"
+      ]
+    },
+    {
+      "id": "create-from-missing-global",
+      "prompt": "这台机器没有全局 AGENTS.md。请使用内置工程 fallback 创建一份。",
+      "expected_trigger": true,
+      "expected_fallback": "assets/AGENTS.example.md",
+      "critical_boundaries": [
+        "选择 fallback 并继续",
+        "保护无关修改",
+        "只委派独立且不冲突的工作流",
+        "协调者负责集成和最终验证",
+        "文件和模块排他所有权",
+        "执行 Agent 运行最小针对性检查",
+        "不机械设置固定角色"
+      ]
+    },
+    {
+      "id": "review-agent-instructions",
+      "prompt": "请审查我的 Agent 指令中重复或缺乏依据的规则，但不要编辑文件。",
+      "expected_trigger": true,
+      "critical_boundaries": [
+        "只读审查",
+        "不添加通用规则"
+      ]
+    },
+    {
+      "id": "reorganize-project-instructions",
+      "prompt": "请重组这个项目的 AGENTS.md，并保留继承的全局偏好。",
+      "expected_trigger": true,
+      "critical_boundaries": [
+        "仅项目范围",
+        "不修改全局文件"
+      ]
+    },
+    {
+      "id": "optimize-global-instructions",
+      "prompt": "请优化我的全局 AGENTS.md，不要改变其语言或明确阈值。",
+      "expected_trigger": true,
+      "critical_boundaries": [
+        "保留语言和阈值",
+        "合并重复规则",
+        "不增加未要求的流程"
+      ]
+    },
+    {
+      "id": "ordinary-rebase",
+      "prompt": "请把功能分支 rebase 到 main，并解决冲突。",
+      "expected_trigger": false,
+      "critical_boundaries": []
+    },
+    {
+      "id": "ordinary-fast-forward",
+      "prompt": "请将 main fast-forward 到已经审查的功能提交。",
+      "expected_trigger": false,
+      "critical_boundaries": []
+    },
+    {
+      "id": "ordinary-merge",
+      "prompt": "请合并这两个分支并运行聚焦测试。",
+      "expected_trigger": false,
+      "critical_boundaries": []
+    },
+    {
+      "id": "mention-agents-while-rebasing",
+      "prompt": "请遵循 AGENTS.md，然后 rebase 该分支并 fast-forward main。",
+      "expected_trigger": false,
+      "critical_boundaries": []
+    },
+    {
+      "id": "parallel-implementation",
+      "prompt": "请使用多个 Agent 并行实现这些独立功能。",
+      "expected_trigger": false,
+      "critical_boundaries": []
+    },
+    {
+      "id": "release-request",
+      "prompt": "请构建、发布并验证这个软件包。",
+      "expected_trigger": false,
+      "critical_boundaries": []
+    }
+  ]
+}

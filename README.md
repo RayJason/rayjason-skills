@@ -9,6 +9,7 @@ An open-source collection of Agent Skills for production-grade software delivery
 | Skill | Display name | Purpose | Status |
 | --- | --- | --- | --- |
 | [`harness-agents-md`](harness-agents-md/) | Harness AGENTS.md | Faithfully create, review, reorganize, or optimize global and project agent instructions | Available |
+| [`harness-agents-md-zh-cn`](harness-agents-md-zh-cn/) | 驾驭 AGENTS.md（中文版） | Chinese-language package with the same concise fidelity and fallback contract | Available |
 
 When adding a skill, add a row to this table and place a directory with the same
 name at the repository root.
@@ -49,6 +50,16 @@ Update an installed skill:
 npx skills update harness-agents-md --global --yes
 ```
 
+Install the separate Chinese-language package:
+
+```bash
+npx skills add RayJason/rayjason-skills --skill harness-agents-md-zh-cn --global
+```
+
+Its instructions, packaged fallback, evaluations, and contract output are in
+Chinese. It keeps the same narrow activation and does not replace or modify the
+English package.
+
 ## Develop
 
 Clone the repository over SSH:
@@ -61,7 +72,9 @@ git clone git@github.com:RayJason/rayjason-skills.git
 
 ```bash
 python3 /path/to/skill-creator/scripts/quick_validate.py harness-agents-md
+python3 /path/to/skill-creator/scripts/quick_validate.py harness-agents-md-zh-cn
 python3 harness-agents-md/scripts/test_skill_contract.py
+python3 harness-agents-md-zh-cn/scripts/test_skill_contract.py
 ```
 
 The contract tests validate the deliberately small package, narrow activation,

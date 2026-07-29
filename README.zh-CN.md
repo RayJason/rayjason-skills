@@ -8,14 +8,16 @@
 
 | Skill | 展示名 | 用途 | 状态 |
 | --- | --- | --- | --- |
-| [`harness-agents-md`](harness-agents-md/) | 驾驭 AGENTS.md | 忠实创建、审查、重组或优化全局与项目级 Agent 指令 | 可用 |
+| [`harness-agents-md`](harness-agents-md/) | Harness AGENTS.md（英文版） | 英文指令、fallback 与行为契约 | 可用 |
+| [`harness-agents-md-zh-cn`](harness-agents-md-zh-cn/) | 驾驭 AGENTS.md（中文版） | 中文指令、fallback 与行为契约 | 可用 |
 
 新增 Skill 时，在表格中增加一行，并在仓库根目录放置同名 Skill 目录。
 
 ## 驾驭 AGENTS.md
 
-`harness-agents-md` 是一个用于维护个人全局与项目级 Agent 指令的小型工程辅助
-Skill。它：
+`harness-agents-md` 是英文版；`harness-agents-md-zh-cn` 是独立的中文版。
+两者都是用于维护个人全局与项目级 Agent 指令的小型工程辅助 Skill，并遵循
+相同原则：
 
 - 仅在用户明确要求创建、审查、重组或优化 `AGENTS.md` / Agent 指令时触发；
 - 全局指令存在时忠实沿用；
@@ -29,19 +31,19 @@ Skill。它：
 
 ## Install
 
-使用开源 Agent Skills CLI 为 Codex 全局安装：
+使用开源 Agent Skills CLI 为 Codex 全局安装中文版：
 
 ```bash
-npx skills add RayJason/rayjason-skills --skill harness-agents-md --global
+npx skills add RayJason/rayjason-skills --skill harness-agents-md-zh-cn --global
 ```
 
 - 可用 `bunx skills` 替代 `npx skills`。
 - 去掉 `--global` 可安装到当前项目。
 
-更新已安装版本：
+英文版使用原标识符单独安装：
 
 ```bash
-npx skills update harness-agents-md --global --yes
+npx skills add RayJason/rayjason-skills --skill harness-agents-md --global
 ```
 
 ## Develop
@@ -56,7 +58,9 @@ git clone git@github.com:RayJason/rayjason-skills.git
 
 ```bash
 python3 /path/to/skill-creator/scripts/quick_validate.py harness-agents-md
+python3 /path/to/skill-creator/scripts/quick_validate.py harness-agents-md-zh-cn
 python3 harness-agents-md/scripts/test_skill_contract.py
+python3 harness-agents-md-zh-cn/scripts/test_skill_contract.py
 ```
 
 契约测试会验证精简后的包结构、窄触发元数据、已有全局指令忠实性、缺失
